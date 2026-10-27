@@ -1,0 +1,28 @@
+# Private overrides and credentials
+*.local
+.env
+.env.*
+!.env.example
+*.key
+*.pem
+auth.json
+credentials*
+.netrc
+# Runtime, dependencies and coordinator scratch
+.git/
+.pi-herdsman/
+node_modules/
+.cache/
+cache/
+history/
+sessions/
+logs/
+*.log
+*.bak
+*~
+result
+result-*
+# Never export machine trust or excluded integration configuration
+trust.json
+fabric.json
+pstack-fabric.json

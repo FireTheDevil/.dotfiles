@@ -1,0 +1,102 @@
+{
+  "defaultProvider": "openai-codex",
+  "defaultModel": "gpt-6-astra",
+  "defaultThinkingLevel": "max",
+  "extensions": [
+    "+builtin:codemode",
+    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/confirm-destructive.ts",
+    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/dirty-repo-guard.ts",
+    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/permission-gate.ts",
+    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/protected-paths.ts",
+    "../../projects/pi-questionnaire/questionnaire.ts"
+  ],
+  "enableInstallTelemetry": false,
+  "packages": [
+    "npm:@plannotator/pi-extension",
+    "npm:pi-web-access",
+    {
+      "source": "npm:@ff-labs/pi-fff",
+      "extensions": [
+        "-src/index.ts"
+      ]
+    },
+    {
+      "source": "npm:@howaboua/pi-codex-conversion",
+      "extensions": [
+        "+dist/index.js"
+      ]
+    },
+    "npm:pi-herdsman",
+    "git:github.com/FireTheDevil/pi-pstack-herdsman@76943c5d023ce53ebab71316d6983faaf0705c3b",
+    "npm:pi-context-view",
+    {
+      "source": "npm:@howaboua/pi-codex-guardian",
+      "extensions": [
+        "-changelog.ts",
+        "-index.ts"
+      ]
+    },
+    "npm:@heyhuynhgiabuu/pi-pretty"
+  ],
+  "collapseChangelog": true,
+  "showCacheMissNotices": true,
+  "theme": "dark",
+  "terminal": {
+    "showTerminalProgress": true
+  },
+  "hideThinkingBlock": false,
+  "tuiMode": "fullscreen",
+  "treeFilterMode": "default",
+  "subagents": {
+    "agentOverrides": {
+      "worker": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "max"
+      },
+      "poteto-agent": {
+        "model": "openai-codex/gpt-6-sol",
+        "thinking": "medium"
+      },
+      "comment-sicko": {
+        "model": "openai-codex/gpt-6-luna",
+        "thinking": "medium"
+      }
+    }
+  },
+  "skills": [
+    "-skills/strict-tdd/SKILL.md",
+    "+skills/thermo-nuclear-code-quality-review/SKILL.md"
+  ],
+  "modelThinkingLevels": {
+    "openai-codex/gpt-6-astra": "medium",
+    "openai-codex/gpt-6-sol": "medium",
+    "openai-codex/gpt-6-luna": "max"
+  },
+  "otel": {
+    "enabled": false
+  },
+  "enabledModels": [
+    "openai-codex/gpt-6-astra",
+    "openrouter/qwen/qwen3.8-flash",
+    "openrouter/z-ai/glm-5.3-flash",
+    "openrouter/openrouter/free",
+    "openrouter/meta/muse-spark-1.3",
+    "openrouter/~deepseek/deepseek-v4-flash-latest",
+    "openrouter/~deepseek/deepseek-pro-latest",
+    "openrouter/~anthropic/claude-fable-latest",
+    "openrouter/~anthropic/claude-opus-latest",
+    "openrouter/~anthropic/claude-sonnet-latest",
+    "openrouter/~openai/gpt-sol-latest",
+    "openrouter/~openai/gpt-mini-latest",
+    "openrouter/~openai/gpt-astra-latest",
+    "openrouter/~openai/gpt-luna-latest",
+    "openrouter/~openai/gpt-terra-latest",
+    "openrouter/~x-ai/grok-latest",
+    "openrouter/~z-ai/glm-latest",
+    "lmstudio/qwen3.8-27b@q3_k_xl",
+    "openai-codex/gpt-6-luna",
+    "openrouter/anthropic/claude-opus-5.5",
+    "openai-codex/gpt-6.1-sol",
+    "openrouter/anthropic/claude-sonnet-5.5"
+  ]
+}

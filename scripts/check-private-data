@@ -1,0 +1,71 @@
+#!/usr/bin/env python3
+"""Read-only candidate privacy checks. Never print matching content."""
+import argparse
+import json
+import re
+import subprocess
+from pathlib import Path
+
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--deny-file', type=Path, help='outside-repository private literals, one per line')
+args = parser.parse_args()
+root = Path(__file__).resolve().parent.parent
+paths = subprocess.check_output(
+    ['git', '-C', str(root), 'ls-files', '-z', '--cached', '--others', '--exclude-standard']
+).decode().split('\0')
+literals = []
+if args.deny_file:
+    private_file = args.deny_file.resolve()
+    if private_file == root or root in private_file.parents:
+        parser.error('deny-file must be outside the repository')
+    literals = [s for s in private_file.read_text().splitlines() if s.strip()]
+rules = {
+    'personal-home': r'/(?:home|Users)/[A-Za-z0-9_][A-Za-z0-9_.-]*',
+    'windows-path': r'/mnt/[a-z]/|[A-Za-z]:\\\\',
+    'private-network': r'(?<![\d.])(?:10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(?:1[6-9]|2\d|3[01])\.\d+\.\d+|100\.(?:6[4-9]|[7-9]\d|1[01]\d|12[0-7])\.\d+\.\d+)(?![\d.])',
+    'credential-material': r'-----BEGIN (?:[A-Z ]*PRIVATE KEY)|\b(?:sk-[A-Za-z0-9_-]{20,}|gh[pousr]_[A-Za-z0-9]{20,})\b',
+    'credential-url': r'https?://[^/\s:@]+:[^/\s@]+@',
+    'identity-metadata': r'"(?:deviceId|machineId)"\s*:',
+}
+failures = []
+for name in sorted(set(paths)):
+    if not name:
+        continue
+    path = root / name
+    if path.is_symlink():
+        failures.append((name, 'unreviewed-symlink'))
+        continue
+    if not path.is_file():
+        continue
+    data = path.read_text(encoding='utf-8')
+    for rule, pattern in rules.items():
+        if re.search(pattern, data):
+            failures.append((name, rule))
+    if any(s in data for s in literals):
+        failures.append((name, 'private-literal'))
+    # Email addresses must be explicit examples, not personal identities.
+    for address in re.findall(r'[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}', data):
+        if not address.endswith(('@example.invalid', '@example.com')):
+            failures.append((name, 'non-example-email'))
+            break
+    if path.suffix == '.json':
+        try:
+            obj = json.loads(data)
+        except ValueError:
+            failures.append((name, 'invalid-json'))
+            continue
+        def check(value):
+            if isinstance(value, dict):
+                for key, child in value.items():
+                    if re.fullmatch(r'(?:api[_-]?key|token|password|secret|authorization)', key, re.I):
+                        if child and not (isinstance(child, str) and re.fullmatch(r'[A-Z][A-Z0-9_]+', child)):
+                            failures.append((name, 'credential-field'))
+                    check(child)
+            elif isinstance(value, list):
+                for child in value:
+                    check(child)
+        check(obj)
+for name, rule in failures:
+    print(f'{name}: {rule}')
+print(f'Checked {len(set(paths) - {""})} candidate files; {len(failures)} finding(s).')
+raise SystemExit(bool(failures))

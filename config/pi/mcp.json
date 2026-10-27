@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "obsidian": {
+      "url": "https://127.0.0.1:27124/mcp/",
+      "enabled": false
+    }
+  }
+}

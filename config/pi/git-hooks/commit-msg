@@ -1,0 +1,11 @@
+#!/bin/sh
+# Preserve the repository's own commit-msg hook, if it has one.
+git_common_dir=$(git rev-parse --git-common-dir) || exit 1
+local_hook="$git_common_dir/hooks/commit-msg"
+if [ -x "$local_hook" ] && [ "$local_hook" != "$0" ]; then
+  "$local_hook" "$1" || exit $?
+fi
+[ "${PI_GIT_COMMIT:-}" = "1" ] || exit 0
+# Optional attribution identity is configured locally, never exported from source.
+trailer="Co-authored-by: ${PI_COMMIT_AUTHOR_NAME:-Pi} <${PI_COMMIT_AUTHOR_EMAIL:-noreply@example.invalid}>"
+grep -Fqx "$trailer" "$1" || printf '\n%s\n' "$trailer" >> "$1"

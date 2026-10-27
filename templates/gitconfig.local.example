@@ -1,0 +1,5 @@
+# Copy manually to ~/.gitconfig.local and supply your private identity.
+[user]
+    name = YOUR_NAME
+    email = YOUR_EMAIL
+# Configure a Linux credential helper locally; none is bundled.

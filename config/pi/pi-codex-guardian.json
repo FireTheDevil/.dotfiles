@@ -1,0 +1,18 @@
+{
+  "rules": [
+    {
+      "tool": "exec_command",
+      "args": {
+        "cmd": "\\b(rm|sudo|chmod|chown|dd|mkfs)\\b|\\bgit\\s+(push|reset|clean)\\b"
+      },
+      "action": "review"
+    },
+    {
+      "tool": "bash",
+      "args": {
+        "command": "\\b(rm|sudo|chmod|chown|dd|mkfs)\\b|\\bgit\\s+(push|reset|clean)\\b"
+      },
+      "action": "review"
+    }
+  ]
+}

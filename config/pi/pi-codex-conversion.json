@@ -1,0 +1,90 @@
+{
+  "mode": "normal",
+  "voiceFeaturesOnly": false,
+  "scope": {
+    "allProviders": "off",
+    "additionalProviders": []
+  },
+  "tools": {
+    "webRun": true,
+    "imageGeneration": true,
+    "viewImageFallback": false,
+    "applyPatchOnly": false,
+    "viewImageOnly": false,
+    "webRunOnly": false,
+    "imageGenerationOnly": false,
+    "customRustBinariesDir": "",
+    "autoReasoning": false
+  },
+  "ui": {
+    "statusLine": true,
+    "toolRenaming": true,
+    "compactTools": "on",
+    "codeModeDetails": true,
+    "backgroundShellWidget": true,
+    "backgroundShellToggleShortcut": "alt+w",
+    "backgroundShellPrevShortcut": "alt+a",
+    "backgroundShellNextShortcut": "alt+e",
+    "backgroundShellCloseShortcut": "alt+r",
+    "noteSaveMarkers": true
+  },
+  "compaction": {
+    "version": "v1",
+    "v2UserMessageRetention": 64,
+    "continuity": "notes",
+    "historyStorage": "remote",
+    "shareSubagentContext": true,
+    "method": "pi",
+    "notesTreeHandoff": true,
+    "idleNotesRollover": 0,
+    "taskBoundaryReminder": 0,
+    "newWindowRequests": "unrestricted"
+  },
+  "voice": {
+    "protocol": "v3",
+    "mode": "conversational",
+    "v2Voice": "marin",
+    "v3Voice": "sol",
+    "dictationShortcut": "ctrl+alt+d",
+    "realtimeShortcut": "ctrl+alt+space",
+    "dictationShortcutMode": "push",
+    "inputDevice": "alsa:pulse",
+    "outputDevice": "alsa:pulse",
+    "autoResumeRealtime": false,
+    "audioSetupCompleted": true,
+    "delegationAcknowledgements": true,
+    "forwardReasoningSummaries": true,
+    "muteShortcut": "ctrl+alt+m",
+    "serverShortcut": "ctrl+alt+g",
+    "contextReasoning": "high",
+    "refreshRealtimeAfterCompaction": false,
+    "v3AlternateVoice": "ember"
+  },
+  "openai": {
+    "fast": {
+      "astra": false,
+      "sol": false,
+      "terra": false,
+      "luna": false,
+      "other": false
+    },
+    "verbosity": "low",
+    "forceCachedWebSockets": true,
+    "webSearchModel": "gpt-5.6-luna",
+    "lunaCacheKeepaliveMinutes": 15,
+    "proxyResponsesLite": false,
+    "cacheDiagnostics": "status-and-log",
+    "harnessIdentifierHeader": "codex",
+    "daybreak": false,
+    "lunaCacheKeepaliveIntervalMinutes": 2.5
+  },
+  "executionMode": "notebook",
+  "prompt": {
+    "heavySystemPromptOverwrite": true,
+    "currentTimeReminderMinutes": 0
+  },
+  "notebook": {
+    "maxHeapMiB": 4096,
+    "plainCommandOutput": false
+  }
+}

@@ -1,0 +1,4 @@
+# Copy manually to ~/.config/shell.local; keep it outside this repository.
+# Set private endpoints, telemetry identity and credentials here as needed.
+# No real credentials or identities belong in this example.
+# export LMSTUDIO_API_KEY=...

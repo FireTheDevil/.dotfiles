@@ -1,0 +1,177 @@
+{
+  "formatVersion": 1,
+  "pi": {
+    "package": "@earendil-works/pi-coding-agent",
+    "observedVersion": "1.4.0",
+    "source": "https://github.com/earendil-works/pi",
+    "revision": "v1.4.0",
+    "installTreeIncluded": false
+  },
+  "npm": {
+    "manifest": "pi-npm/package.json",
+    "lock": "pi-npm/package-lock.json",
+    "packages": [
+      {
+        "name": "@ff-labs/pi-fff",
+        "requested": "^0.11.0",
+        "lockedVersion": "0.11.0"
+      },
+      {
+        "name": "@heyhuynhgiabuu/pi-pretty",
+        "requested": "^0.7.1",
+        "lockedVersion": "0.7.1"
+      },
+      {
+        "name": "@howaboua/pi-codex-conversion",
+        "requested": "^4.0.1",
+        "lockedVersion": "4.0.1"
+      },
+      {
+        "name": "@howaboua/pi-codex-guardian",
+        "requested": "^0.0.1",
+        "lockedVersion": "0.0.1"
+      },
+      {
+        "name": "@plannotator/pi-extension",
+        "requested": "^0.28.22",
+        "lockedVersion": "0.28.22"
+      },
+      {
+        "name": "pi-context-view",
+        "requested": "^0.7.1",
+        "lockedVersion": "0.7.1"
+      },
+      {
+        "name": "pi-herdsman",
+        "requested": "^0.27.0",
+        "lockedVersion": "0.27.0"
+      },
+      {
+        "name": "pi-web-access",
+        "requested": "^0.41.0",
+        "lockedVersion": "0.41.0"
+      }
+    ]
+  },
+  "local": [
+    {
+      "name": "pi-skill-toggle",
+      "source": "https://github.com/dmmulroy/.dotfiles",
+      "revision": "29ebc43b8b4afe7a6d667d4c36ad81f775d2c616",
+      "sourcePath": "home/.pi/agent/extensions/pi-skill-toggle",
+      "included": false,
+      "comparison": {
+        "removedSnapshot": "20 of 22 upstream files are byte-identical at this revision",
+        "acceptedUpstreamChange": "src/discovery/skill-locator.ts now deduplicates skill files by canonical real path; its test also differs because it covers that fix and uses the upstream synthetic home path"
+      },
+      "reason": "The source is a nested package in a dotfiles repository. Pi Git package sources cannot select that subdirectory, so clone the pinned repository and add sourcePath as a local package."
+    },
+    {
+      "name": "pi-pstack-herdsman",
+      "source": "https://github.com/FireTheDevil/pi-pstack-herdsman",
+      "revision": "76943c5d023ce53ebab71316d6983faaf0705c3b",
+      "sourceRef": "master",
+      "configuredSource": "git:github.com/FireTheDevil/pi-pstack-herdsman@76943c5d023ce53ebab71316d6983faaf0705c3b",
+      "included": true,
+      "liveIntegration": {
+        "path": "../../projects/pi-pstack-herdsman",
+        "workingTree": "dirty",
+        "workingTreePathCount": 37
+      },
+      "reason": "Snapshot settings use the clean pinned GitHub package. Live Pi continues to use the local development checkout, whose uncommitted changes are not included.",
+      "compatibilityWarning": "The public revision declares @earendil-works/pi-coding-agent >=1.1.0 <1.4.0 while this snapshot targets Pi 1.4.0."
+    },
+    {
+      "name": "pi-otlp",
+      "source": "<PRIVATE_LOCAL_PI_OTLP_SOURCE>",
+      "revision": "c2a8ebeb87b6e264790bc057177aae76437eb734",
+      "sourceWorkingTree": "dirty",
+      "included": false,
+      "reason": "Independently repository-owned; revision alone cannot recreate live modifications. Obtain that working tree separately before re-enabling. Telemetry disabled in snapshot.",
+      "dirtyPaths": [
+        "src/commands/otel.ts",
+        "src/index.ts",
+        "src/otel/sdk.ts",
+        "src/pi-version.ts",
+        "test/sdk.test.js",
+        "EXPORT-RELIABILITY-PLAN.md",
+        "src/otel/probe.ts"
+      ]
+    }
+  ],
+  "extensions": [
+    {
+      "name": "questionnaire",
+      "configuredPath": "../../projects/pi-questionnaire/questionnaire.ts",
+      "source": "https://github.com/FireTheDevil/pi-questionnaire",
+      "revision": "a7a7ef01c19f238d4c88f643cecce3636a7bdc05",
+      "sourcePath": "questionnaire.ts",
+      "included": false,
+      "status": "Referenced as a local extension path after a manual clone. The repository root has no Pi package manifest or conventional extensions directory, so it is not directly installable as a Pi Git package."
+    },
+    {
+      "name": "confirm-destructive",
+      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/confirm-destructive.ts",
+      "source": "https://github.com/earendil-works/pi",
+      "revision": "v1.4.0",
+      "sourcePath": "packages/coding-agent/examples/extensions/confirm-destructive.ts",
+      "included": false,
+      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+    },
+    {
+      "name": "dirty-repo-guard",
+      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/dirty-repo-guard.ts",
+      "source": "https://github.com/earendil-works/pi",
+      "revision": "v1.4.0",
+      "sourcePath": "packages/coding-agent/examples/extensions/dirty-repo-guard.ts",
+      "included": false,
+      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+    },
+    {
+      "name": "permission-gate",
+      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/permission-gate.ts",
+      "source": "https://github.com/earendil-works/pi",
+      "revision": "v1.4.0",
+      "sourcePath": "packages/coding-agent/examples/extensions/permission-gate.ts",
+      "included": false,
+      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+    },
+    {
+      "name": "protected-paths",
+      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/protected-paths.ts",
+      "source": "https://github.com/earendil-works/pi",
+      "revision": "v1.4.0",
+      "sourcePath": "packages/coding-agent/examples/extensions/protected-paths.ts",
+      "included": false,
+      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+    },
+    {
+      "path": "config/pi/extensions/git-commit-attribution.ts",
+      "provenance": "Local unversioned source",
+      "status": "Included; sets runtime attribution flag"
+    },
+    {
+      "path": "config/pi/extensions/herdr-agent-state.ts",
+      "provenance": "Herdr-managed output, integration version 9",
+      "status": "Included as installed integration snapshot, not maintained custom source; only acts with Herdr runtime environment"
+    },
+    {
+      "path": "preserved/disabled-subagent",
+      "provenance": "Unversioned modified Pi example; index.ts, agents.ts and README.md differ from installed 1.3.0 example; local config added",
+      "status": "Inactive historical implementation only, outside extension discovery; no agent definition/prompt duplication",
+      "risks": [
+        "Legacy @mariozechner imports absent from installed 1.3.0",
+        "Project-agent confirmation skipped in headless mode",
+        "Not built or runtime-tested"
+      ]
+    }
+  ],
+  "omittedExtensions": {
+    "inactive": [
+      "btw",
+      "sandbox"
+    ],
+    "backupsIncluded": false
+  },
+  "reproducibility": "Partial snapshot only. Public external sources are revision-pinned, but their checkouts and Pi's install tree are not included. Dirty independent sources, absent tool pins and unversioned skills prevent full reproduction."
+}

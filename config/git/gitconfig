@@ -1,0 +1,5 @@
+[core]
+    pager = cat
+    hooksPath = ~/.pi/agent/git-hooks
+[include]
+    path = ~/.gitconfig.local

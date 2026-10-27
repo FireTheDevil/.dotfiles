@@ -59,10 +59,6 @@
       }
     }
   },
-  "skills": [
-    "-skills/strict-tdd/SKILL.md",
-    "+skills/thermo-nuclear-code-quality-review/SKILL.md"
-  ],
   "modelThinkingLevels": {
     "openai-codex/gpt-6-astra": "medium",
     "openai-codex/gpt-6-sol": "medium",

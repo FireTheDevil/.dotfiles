@@ -12,6 +12,7 @@ private server addresses, authentication stores, and private repository URLs.
 Prerequisites:
 
 - Git and Python 3
+- Node.js 22.20.0 or newer with `npm`/`npx`
 - Pi 1.4.0 installed, including the four example extension source files
 - A Windows-side WezTerm installation for the separate manual step
 
@@ -27,7 +28,8 @@ cd ~/dotfiles
 
 `dot apply` shows the plan and asks for confirmation. Use `./dot apply --yes` only
 for an intentional noninteractive installation. It creates an individual symlink
-for each file below `home/`; it does not replace whole directories.
+for each file below `home/`; it does not replace whole directories. It also installs
+the public skills in `skills-lock.json` globally for Pi through skills.sh.
 
 Run `./dot unlink` to remove installer-owned links. The command removes a link only
 when it is recorded in `~/.local/state/dotfiles/state.json` and still points to the
@@ -44,13 +46,16 @@ the unlink confirmation.
   checkout blocks the operation.
 - A failed new clone is removed. Managed checkouts live below
   `~/.local/share/dotfiles/sources/`.
+- Locked skills use full Git revisions and content hashes. Existing missing skills
+  are installed only after the apply confirmation. Modified skills and separate
+  Pi-specific copies block installation instead of being overwritten.
 - State writes are atomic. Each newly created link is recorded before the installer
   continues to the next link.
 
 The source manifest is [`sources.json`](sources.json). It pins questionnaire,
 `pi-skill-toggle`, the four Pi examples, and the configured `pi-pstack-herdsman`
 package. [`pi-packages.json`](pi-packages.json) retains wider package provenance.
-The installer does not start Pi or install npm packages.
+The installer does not start Pi or install Pi's npm packages.
 
 The four Pi examples link to the installed
 `@earendil-works/pi-coding-agent` 1.4.0 release. If those files are absent,
@@ -58,6 +63,13 @@ The four Pi examples link to the installed
 Questionnaire and `pi-skill-toggle` use sparse, pinned public Git checkouts.
 `pi-pstack-herdsman` remains a pinned Pi Git package in settings and is reconciled
 by Pi itself.
+
+[`skills-lock.json`](skills-lock.json) records the public skill sources, exact Git
+revisions, source paths, and content hashes. `dot apply` uses `skills@1.7.4` through
+`npx` and targets Pi's global `~/.agents/skills` directory. It does not update,
+replace, or remove a skill whose content differs from the lock. `dot unlink` leaves
+skills.sh installations in place. The customized `asd-ste-100-with-adhd` skill is
+the only skill copied into this repository.
 
 ## Windows step
 
@@ -78,13 +90,16 @@ The npm manifest and lock are stored in `home/.pi/agent/npm/`. No package instal
 or lifecycle script is run by `dot`; review `allowScripts` before separate use.
 
 See the [inventory](inventory.md), [tool dependencies](dependencies/tools.md),
-[Pi package provenance](pi-packages.json), and [skills](skills.json).
+[Pi package provenance](pi-packages.json), and [locked skills](skills-lock.json).
 
 ## Verification status
 
 The normalized layout and `dot` installer were implemented without running any
-installer command or test. Historical checks for the earlier manual snapshot are
-recorded in the inventory and do not validate the new installer.
+installer command or behavioral test. The skills.sh installation path was also not
+run, so this change did not modify locally installed skills. Historical checks for
+the earlier manual snapshot are recorded in the inventory and do not validate the
+new installer. Static syntax, JSON, whitespace, and privacy checks did not execute
+`dot`, `npx`, or skills.sh.
 
 ## Safe maintenance
 

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -18,11 +19,19 @@ from typing import Any, Dict, List, Mapping, Optional, Sequence, Tuple
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 MANIFEST_PATH = REPO_ROOT / "sources.json"
+SKILLS_LOCK_PATH = REPO_ROOT / "skills-lock.json"
 HOME_ROOT = Path(
     os.path.abspath(os.environ.get("HOME") or str(Path.home()))
 )
 FULL_REVISION = re.compile(r"^[0-9a-f]{40}$")
+SHA256 = re.compile(r"^[0-9a-f]{64}$")
 SAFE_VERSION = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]*$")
+GITHUB_SOURCE = re.compile(
+    r"^[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9])?/"
+    r"[A-Za-z0-9](?:[A-Za-z0-9_.-]*[A-Za-z0-9])?$"
+)
+SKILLS_CLI_VERSION = "1.7.4"
+SKILLS_AGENT = "pi"
 
 
 class DotError(Exception):
@@ -59,11 +68,22 @@ class PiExamples:
 
 
 @dataclass(frozen=True)
+class ManagedSkill:
+    name: str
+    source: str
+    source_url: str
+    revision: str
+    skill_path: str
+    computed_hash: str
+
+
+@dataclass(frozen=True)
 class Configuration:
     managed_root: Path
     state_file: Path
     git_sources: Tuple[GitSource, ...]
     pi_examples: PiExamples
+    managed_skills: Tuple[ManagedSkill, ...]
     manual_steps: Tuple[str, ...]
 
 
@@ -172,6 +192,77 @@ def _full_revision(value: Any, label: str) -> str:
     if not FULL_REVISION.fullmatch(revision):
         raise ConfigError(f"{label} must be a full lowercase 40-character Git revision.")
     return revision
+
+
+def _sha256(value: Any, label: str) -> str:
+    digest = _string(value, label)
+    if not SHA256.fullmatch(digest):
+        raise ConfigError(f"{label} must be a lowercase SHA-256 digest.")
+    return digest
+
+
+def load_managed_skills() -> Tuple[ManagedSkill, ...]:
+    lock = _mapping(_read_json(SKILLS_LOCK_PATH, "skills lock"), "skills-lock.json")
+    if lock.get("version") != 1:
+        raise ConfigError("skills-lock.json version must be 1.")
+    if set(lock) != {"version", "skills"}:
+        raise ConfigError("skills-lock.json contains unsupported top-level fields.")
+
+    raw_skills = _mapping(lock.get("skills"), "skills-lock.json skills")
+    if not raw_skills:
+        raise ConfigError("skills-lock.json skills must not be empty.")
+
+    skills: List[ManagedSkill] = []
+    allowed_fields = {
+        "source",
+        "sourceUrl",
+        "ref",
+        "sourceType",
+        "skillPath",
+        "computedHash",
+    }
+    for name in sorted(raw_skills):
+        if not SAFE_VERSION.fullmatch(name):
+            raise ConfigError(f"Invalid managed skill name: {name}")
+        label = f"skills-lock.json skills[{name!r}]"
+        raw = _mapping(raw_skills[name], label)
+        unsupported = sorted(set(raw) - allowed_fields)
+        if unsupported:
+            raise ConfigError(
+                f"{label} contains unsupported fields: {', '.join(unsupported)}"
+            )
+        if raw.get("sourceType") != "github":
+            raise ConfigError(f"{label}.sourceType must be 'github'.")
+
+        source = _string(raw.get("source"), f"{label}.source")
+        if not GITHUB_SOURCE.fullmatch(source):
+            raise ConfigError(f"{label}.source must be a GitHub owner/repository pair.")
+        source_url = _string(raw.get("sourceUrl"), f"{label}.sourceUrl")
+        if source_url != f"https://github.com/{source}.git":
+            raise ConfigError(f"{label}.sourceUrl does not match its source.")
+        revision = _full_revision(raw.get("ref"), f"{label}.ref")
+        skill_path = _relative_path(raw.get("skillPath"), f"{label}.skillPath")
+        if PurePosixPath(skill_path).name != "SKILL.md":
+            raise ConfigError(f"{label}.skillPath must point to SKILL.md.")
+        computed_hash = _sha256(raw.get("computedHash"), f"{label}.computedHash")
+        skills.append(
+            ManagedSkill(
+                name=name,
+                source=source,
+                source_url=source_url,
+                revision=revision,
+                skill_path=skill_path,
+                computed_hash=computed_hash,
+            )
+        )
+
+    bundled_root = REPO_ROOT / "home" / ".pi" / "agent" / "skills"
+    bundled = sorted(path.name for path in bundled_root.iterdir() if path.is_dir())
+    if bundled != ["asd-ste-100-with-adhd"]:
+        raise ConfigError(
+            "home/.pi/agent/skills must contain only asd-ste-100-with-adhd."
+        )
+    return tuple(skills)
 
 
 def _package_sources(settings: Mapping[str, Any]) -> Tuple[str, ...]:
@@ -367,6 +458,7 @@ def load_configuration() -> Configuration:
             target_directory=target_directory,
             names=names,
         ),
+        managed_skills=load_managed_skills(),
         manual_steps=tuple(manual_steps),
     )
 
@@ -668,6 +760,140 @@ def inspect_link(link: LinkSpec) -> Finding:
     )
 
 
+def _skills_cli_path_order(paths: Sequence[str]) -> List[str]:
+    script = (
+        "const fs=require('node:fs');"
+        "const paths=JSON.parse(fs.readFileSync(0,'utf8'));"
+        "paths.sort((a,b)=>a.localeCompare(b));"
+        "process.stdout.write(JSON.stringify(paths));"
+    )
+    try:
+        result = subprocess.run(
+            ["node", "-e", script],
+            input=json.dumps(list(paths)),
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            check=False,
+        )
+    except FileNotFoundError as error:
+        raise DotError("Node.js is required to verify locked skill content.") from error
+    except OSError as error:
+        raise DotError(f"Could not start Node.js to verify locked skills: {error}") from error
+    if result.returncode != 0:
+        raise DotError(
+            f"Node.js could not order locked skill paths (exit {result.returncode})."
+        )
+    try:
+        ordered = json.loads(result.stdout)
+    except json.JSONDecodeError as error:
+        raise DotError("Node.js returned invalid locked-skill path data.") from error
+    if (
+        not isinstance(ordered, list)
+        or any(not isinstance(value, str) for value in ordered)
+        or sorted(ordered) != sorted(paths)
+    ):
+        raise DotError("Node.js returned an invalid locked-skill path ordering.")
+    return ordered
+
+
+def _skill_directory_hash(path: Path) -> str:
+    files: List[Tuple[str, Path]] = []
+    for root_value, directory_names, file_names in os.walk(path, followlinks=False):
+        root = Path(root_value)
+        retained_directories: List[str] = []
+        for name in directory_names:
+            child = root / name
+            if name in (".git", "node_modules"):
+                continue
+            if child.is_symlink():
+                raise DotError(f"managed skill contains a directory symlink: {_display(child)}")
+            retained_directories.append(name)
+        directory_names[:] = retained_directories
+        for name in file_names:
+            child = root / name
+            if child.is_symlink() or not child.is_file():
+                raise DotError(f"managed skill contains a non-regular file: {_display(child)}")
+            relative = child.relative_to(path).as_posix()
+            files.append((relative, child))
+
+    by_relative = dict(files)
+    ordered_paths = _skills_cli_path_order(tuple(by_relative))
+    digest = hashlib.sha256()
+    for relative in ordered_paths:
+        file_path = by_relative[relative]
+        digest.update(relative.encode("utf-8"))
+        with file_path.open("rb") as handle:
+            for chunk in iter(lambda: handle.read(1024 * 1024), b""):
+                digest.update(chunk)
+    return digest.hexdigest()
+
+
+def inspect_managed_skill(skill: ManagedSkill) -> Finding:
+    path = _lexical(HOME_ROOT / ".agents" / "skills" / skill.name)
+    pi_path = _lexical(HOME_ROOT / ".pi" / "agent" / "skills" / skill.name)
+    if not _path_exists(path):
+        if _path_exists(pi_path):
+            return Finding(
+                "skills",
+                "conflict",
+                skill.name,
+                f"separate Pi-specific copy exists at {_display(pi_path)}",
+            )
+        bad_parent = _bad_parent(path)
+        if bad_parent is not None:
+            return Finding(
+                "skills",
+                "conflict",
+                skill.name,
+                f"parent is not a directory: {_display(bad_parent)}",
+            )
+        return Finding(
+            "skills",
+            "change",
+            skill.name,
+            f"install from {skill.source} at {skill.revision[:12]}",
+        )
+    if path.is_symlink() or not path.is_dir():
+        return Finding(
+            "skills",
+            "conflict",
+            skill.name,
+            f"canonical path is not an ordinary directory: {_display(path)}",
+        )
+    if _path_exists(pi_path) and not _symlink_points_to(pi_path, path):
+        return Finding(
+            "skills",
+            "conflict",
+            skill.name,
+            f"separate Pi-specific copy exists at {_display(pi_path)}",
+        )
+    if not (path / "SKILL.md").is_file():
+        return Finding(
+            "skills",
+            "conflict",
+            skill.name,
+            f"SKILL.md is missing from {_display(path)}",
+        )
+    try:
+        actual_hash = _skill_directory_hash(path)
+    except (DotError, OSError) as error:
+        return Finding("skills", "conflict", skill.name, str(error))
+    if actual_hash != skill.computed_hash:
+        return Finding(
+            "skills",
+            "conflict",
+            skill.name,
+            "installed content differs from skills-lock.json",
+        )
+    return Finding(
+        "skills",
+        "ok",
+        skill.name,
+        f"locked content from {skill.source}",
+    )
+
+
 def collect_findings(
     configuration: Configuration,
     links: Sequence[LinkSpec],
@@ -675,6 +901,20 @@ def collect_findings(
     findings: List[Finding] = [
         inspect_git_source(source) for source in configuration.git_sources
     ]
+    skill_findings = [
+        inspect_managed_skill(skill) for skill in configuration.managed_skills
+    ]
+    findings.extend(skill_findings)
+    if any(finding.status == "change" for finding in skill_findings):
+        if shutil.which("npx") is None:
+            findings.append(
+                Finding(
+                    "skills",
+                    "blocked",
+                    f"skills@{SKILLS_CLI_VERSION}",
+                    "npx is required to install missing locked skills",
+                )
+            )
     findings.extend(inspect_link(link) for link in links)
     bad_state_parent = _bad_parent(configuration.state_file)
     if bad_state_parent is None:
@@ -707,6 +947,7 @@ def _render_findings(
     print(heading)
     for group, title in (
         ("sources", "Pinned sources"),
+        ("skills", "skills.sh skills"),
         ("links", "Managed links"),
         ("state", "Installer state"),
     ):
@@ -912,6 +1153,67 @@ def _confirm(prompt: str, assume_yes: bool) -> bool:
     return response in ("y", "yes")
 
 
+def install_managed_skills(skills: Sequence[ManagedSkill]) -> int:
+    pending: List[ManagedSkill] = []
+    for skill in skills:
+        finding = inspect_managed_skill(skill)
+        if finding.status == "conflict":
+            raise DotError(f"Cannot install {skill.name}: {finding.detail}")
+        if finding.status == "change":
+            pending.append(skill)
+    if not pending:
+        return 0
+    if shutil.which("npx") is None:
+        raise DotError("npx is required to install locked skills but was not found on PATH.")
+
+    groups: Dict[Tuple[str, str], List[ManagedSkill]] = {}
+    for skill in pending:
+        groups.setdefault((skill.source, skill.revision), []).append(skill)
+
+    installed = 0
+    for (source, revision), source_skills in sorted(groups.items()):
+        source_skills.sort(key=lambda skill: skill.name)
+        names = [skill.name for skill in source_skills]
+        print(
+            f"Installing {', '.join(names)} from {source} at {revision[:12]} "
+            f"with skills@{SKILLS_CLI_VERSION}"
+        )
+        arguments = [
+            "npx",
+            "--yes",
+            f"skills@{SKILLS_CLI_VERSION}",
+            "add",
+            f"{source}#{revision}",
+            "--global",
+            "--yes",
+            "--agent",
+            SKILLS_AGENT,
+            "--full-depth",
+        ]
+        for name in names:
+            arguments.extend(("--skill", name))
+        try:
+            result = subprocess.run(arguments, check=False)
+        except FileNotFoundError as error:
+            raise DotError("npx disappeared while installing locked skills.") from error
+        except OSError as error:
+            raise DotError(f"Could not start skills.sh installer: {error}") from error
+        if result.returncode != 0:
+            raise DotError(
+                f"skills.sh installation failed for {source} "
+                f"(exit {result.returncode})."
+            )
+        for skill in source_skills:
+            finding = inspect_managed_skill(skill)
+            if finding.status != "ok":
+                raise DotError(
+                    f"Installed skill {skill.name} does not match its lock: "
+                    f"{finding.detail}"
+                )
+        installed += len(source_skills)
+    return installed
+
+
 def command_plan(configuration: Configuration, links: Sequence[LinkSpec]) -> int:
     findings = collect_findings(configuration, links)
     _render_findings(findings, configuration.manual_steps, heading="Dotfiles plan")
@@ -962,6 +1264,8 @@ def command_apply(
     if source_failures:
         raise DotError("One or more pinned Git sources are still not ready.")
 
+    installed_skills = install_managed_skills(configuration.managed_skills)
+
     for link in links:
         finding = inspect_link(link)
         if finding.status in ("conflict", "blocked"):
@@ -991,7 +1295,10 @@ def command_apply(
         created_count += 1
         print(f"Linked {_display(link.target)} -> {_display(link.source)}")
 
-    print(f"\nApply complete: created {created_count} managed link(s).")
+    print(
+        f"\nApply complete: installed {installed_skills} locked skill(s) and "
+        f"created {created_count} managed link(s)."
+    )
     print("Run './dot check' to inspect the deployed state.")
     return 0
 
@@ -1034,7 +1341,7 @@ def command_unlink(configuration: Configuration, *, assume_yes: bool) -> int:
     owned = load_state(configuration.state_file)
     if not owned:
         print("No installer-owned links are recorded.")
-        print("Pinned source checkouts, if present, are unchanged.")
+        print("Pinned sources and skills.sh installations, if present, are unchanged.")
         return 0
 
     findings = _unlink_findings(owned)
@@ -1067,14 +1374,14 @@ def command_unlink(configuration: Configuration, *, assume_yes: bool) -> int:
         configuration.state_file.unlink()
 
     print(f"\nUnlink complete: removed {removed} installer-owned link(s).")
-    print("Pinned source checkouts and created directories were retained.")
+    print("Pinned sources, skills.sh installations and created directories were retained.")
     return 0
 
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         prog="dot",
-        description="Plan and manage this repository's dotfile links safely.",
+        description="Plan and manage this repository's dotfiles and locked skills safely.",
     )
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("plan", help="show changes without modifying the system")

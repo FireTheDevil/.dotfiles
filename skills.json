@@ -3,42 +3,42 @@
   "local": [
     {
       "name": "asd-ste-100-with-adhd",
-      "snapshot": "config/pi/skills/asd-ste-100-with-adhd",
+      "snapshot": "home/.pi/agent/skills/asd-ste-100-with-adhd",
       "source": "Unversioned local directory; no verified upstream revision",
       "status": "Available to local discovery; recent use not established",
       "licenseIncluded": true
     },
     {
       "name": "install-anti-slop",
-      "snapshot": "config/pi/skills/install-anti-slop",
+      "snapshot": "home/.pi/agent/skills/install-anti-slop",
       "source": "Unversioned local directory; no verified upstream revision",
       "status": "Available to local discovery; recent use not established",
       "licenseIncluded": false
     },
     {
       "name": "qa",
-      "snapshot": "config/pi/skills/qa",
+      "snapshot": "home/.pi/agent/skills/qa",
       "source": "Unversioned local directory; no verified upstream revision",
       "status": "Available to local discovery; recent use not established",
       "licenseIncluded": false
     },
     {
       "name": "strict-tdd",
-      "snapshot": "config/pi/skills/strict-tdd",
+      "snapshot": "home/.pi/agent/skills/strict-tdd",
       "source": "Unversioned local directory; no verified upstream revision",
       "status": "Explicitly excluded by source settings; preserved but disabled",
       "licenseIncluded": false
     },
     {
       "name": "thermo-nuclear-code-quality-review",
-      "snapshot": "config/pi/skills/thermo-nuclear-code-quality-review",
+      "snapshot": "home/.pi/agent/skills/thermo-nuclear-code-quality-review",
       "source": "Unversioned local directory; no verified upstream revision",
       "status": "Explicitly included, manual invocation",
       "licenseIncluded": false
     },
     {
       "name": "typesafe-ai",
-      "snapshot": "config/pi/skills/typesafe-ai",
+      "snapshot": "home/.pi/agent/skills/typesafe-ai",
       "source": "Unversioned local directory; no verified upstream revision",
       "status": "Available to local discovery; recent use not established",
       "licenseIncluded": true
@@ -68,7 +68,7 @@
   "antiSlopVendoredUpstream": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic",
     "revision": "435c3ea0fd26a5fef9042c4b36b6e165fbbf8d08",
-    "license": "config/pi/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/LICENSE"
+    "license": "home/.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/LICENSE"
   },
   "reproducibility": "Local content snapshot only; unknown revisions/activity are explicit rather than inferred."
 }

@@ -1,0 +1,72 @@
+{
+  "formatVersion": 1,
+  "managedRoot": "~/.local/share/dotfiles",
+  "stateFile": "~/.local/state/dotfiles/state.json",
+  "gitSources": [
+    {
+      "id": "pi-questionnaire",
+      "repository": "https://github.com/FireTheDevil/pi-questionnaire.git",
+      "revision": "a7a7ef01c19f238d4c88f643cecce3636a7bdc05",
+      "checkout": "~/.local/share/dotfiles/sources/pi-questionnaire",
+      "sparsePaths": [
+        "README.md",
+        "questionnaire.ts"
+      ],
+      "requiredPaths": [
+        "questionnaire.ts"
+      ],
+      "links": [
+        {
+          "source": "questionnaire.ts",
+          "target": "~/.pi/agent/extensions/questionnaire.ts"
+        }
+      ]
+    },
+    {
+      "id": "dmmulroy-dotfiles",
+      "repository": "https://github.com/dmmulroy/.dotfiles.git",
+      "revision": "29ebc43b8b4afe7a6d667d4c36ad81f775d2c616",
+      "checkout": "~/.local/share/dotfiles/sources/dmmulroy-dotfiles",
+      "sparsePaths": [
+        "home/.pi/agent/extensions/pi-skill-toggle"
+      ],
+      "requiredPaths": [
+        "home/.pi/agent/extensions/pi-skill-toggle/package.json",
+        "home/.pi/agent/extensions/pi-skill-toggle/src/index.ts"
+      ],
+      "links": []
+    }
+  ],
+  "piExamples": {
+    "version": "1.4.0",
+    "sourceTemplate": "~/.pi/agent/install/releases/{version}/node_modules/@earendil-works/pi-coding-agent/examples/extensions/{name}.ts",
+    "targetDirectory": "~/.pi/agent/extensions",
+    "names": [
+      "confirm-destructive",
+      "dirty-repo-guard",
+      "permission-gate",
+      "protected-paths"
+    ]
+  },
+  "piPackages": [
+    {
+      "id": "pi-skill-toggle",
+      "repository": "https://github.com/dmmulroy/.dotfiles.git",
+      "revision": "29ebc43b8b4afe7a6d667d4c36ad81f775d2c616",
+      "sourcePath": "home/.pi/agent/extensions/pi-skill-toggle",
+      "configuredSource": "../../.local/share/dotfiles/sources/dmmulroy-dotfiles/home/.pi/agent/extensions/pi-skill-toggle"
+    },
+    {
+      "id": "pi-pstack-herdsman",
+      "repository": "https://github.com/FireTheDevil/pi-pstack-herdsman.git",
+      "revision": "76943c5d023ce53ebab71316d6983faaf0705c3b",
+      "configuredSource": "git:github.com/FireTheDevil/pi-pstack-herdsman@76943c5d023ce53ebab71316d6983faaf0705c3b"
+    }
+  ],
+  "manualSteps": [
+    {
+      "id": "wezterm-windows",
+      "instruction": "Copy windows/.wezterm.lua to %USERPROFILE%\\.wezterm.lua on the Windows host."
+    }
+  ]
+}

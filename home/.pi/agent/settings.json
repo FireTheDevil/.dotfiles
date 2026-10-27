@@ -3,12 +3,7 @@
   "defaultModel": "gpt-6-astra",
   "defaultThinkingLevel": "max",
   "extensions": [
-    "+builtin:codemode",
-    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/confirm-destructive.ts",
-    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/dirty-repo-guard.ts",
-    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/permission-gate.ts",
-    "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/protected-paths.ts",
-    "../../projects/pi-questionnaire/questionnaire.ts"
+    "+builtin:codemode"
   ],
   "enableInstallTelemetry": false,
   "packages": [
@@ -26,6 +21,7 @@
         "+dist/index.js"
       ]
     },
+    "../../.local/share/dotfiles/sources/dmmulroy-dotfiles/home/.pi/agent/extensions/pi-skill-toggle",
     "npm:pi-herdsman",
     "git:github.com/FireTheDevil/pi-pstack-herdsman@76943c5d023ce53ebab71316d6983faaf0705c3b",
     "npm:pi-context-view",

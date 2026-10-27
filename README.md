@@ -1,72 +1,102 @@
 # Windows + WSL2 development setup
 
-This repository documents my Windows host and Ubuntu-on-WSL2 development setup.
-My macOS configuration is not yet documented. Unless explicitly marked Windows-host,
-configuration targets WSL Ubuntu. WezTerm runs on Windows; Pi and Herdr run in WSL.
+This repository manages my Windows host and Ubuntu-on-WSL2 development setup.
+The `home/` tree mirrors the WSL home directory. WezTerm runs on Windows, while
+Pi and Herdr run in WSL. My macOS configuration is not yet documented.
 
-Sanitized, manually reviewed configuration snapshot, **not an installer or a
-complete machine backup**. Nothing here has been activated. No secrets, personal
-identity, private server addresses or private repository URLs are required here.
+The tracked configuration is sanitized. It excludes secrets, personal identity,
+private server addresses, authentication stores, and private repository URLs.
 
-## Manual use
+## Install in WSL
 
-`.wezterm.lua` configures WezTerm on Windows.
-Copy it manually to `%USERPROFILE%\.wezterm.lua` on Windows, not the WSL home.
-It targets the `Ubuntu` WSL distro and uses PowerShell (`pwsh.exe`), with
-Monaspace Xenon and JetBrains Mono font preferences. Windows runtime behavior
-has not been verified here.
+Prerequisites:
 
-Review each file before copying it. `config/shell/{zshrc,bashrc,profile}` correspond
-to the home-directory dotfiles. `config/git/gitconfig` corresponds to `~/.gitconfig`;
-`config/npm/npmrc` and `config/bun/bunfig.toml` to `~/.npmrc` and `~/.bunfig.toml`.
-`config/{herdr,hunk,uv}/` go beneath `~/.config/`; the uv filename is `uv.toml`.
-`config/pi/` corresponds to `~/.pi/agent/`. There is no automatic symlink/deploy step.
-Shared skills and the agent-definition package must be restored privately as documented.
-The Pi launcher and commit hook need executable permissions when manually deployed.
+- Git and Python 3
+- Pi 1.4.0 installed, including the four example extension source files
+- A Windows-side WezTerm installation for the separate manual step
 
-The four unmodified Pi examples are not copied into this repository. Settings load
-them directly from the installed `@earendil-works/pi-coding-agent` 1.4.0 release.
-Update those versioned paths when Pi changes. The questionnaire is also external:
-clone [FireTheDevil/pi-questionnaire](https://github.com/FireTheDevil/pi-questionnaire)
-at the revision in `pi-packages.json` to `~/projects/pi-questionnaire`.
+Clone the repository to a permanent location, then inspect and apply the plan:
 
-`pi-skill-toggle` is referenced from
-[dmmulroy/.dotfiles](https://github.com/dmmulroy/.dotfiles/tree/main/home/.pi/agent/extensions/pi-skill-toggle)
-instead of being copied. Pi cannot install that nested package from the repository
-URL directly. Clone the pinned repository, then add its nested directory as a local
-Pi package. Snapshot settings load `pi-pstack-herdsman` from its pinned public
-GitHub source. The live configuration can continue to use its local development
-checkout. Its declared Pi peer range excludes Pi 1.4.0, so verify compatibility
-before a fresh installation. See the inventory for exact revisions and limits.
+```sh
+git clone <repository-url> ~/dotfiles
+cd ~/dotfiles
+./dot plan
+./dot apply
+./dot check
+```
 
-Copy the examples in `templates/` outside the repository and fill in identity and
+`dot apply` shows the plan and asks for confirmation. Use `./dot apply --yes` only
+for an intentional noninteractive installation. It creates an individual symlink
+for each file below `home/`; it does not replace whole directories.
+
+Run `./dot unlink` to remove installer-owned links. The command removes a link only
+when it is recorded in `~/.local/state/dotfiles/state.json` and still points to the
+recorded source. It retains source checkouts and directories. Use `--yes` to skip
+the unlink confirmation.
+
+## Safety model
+
+- `dot plan` and `dot check` are read-only.
+- `dot apply` never overwrites an existing file or a different symlink.
+- A pre-existing correct symlink is accepted but is not claimed as installer-owned.
+- Existing Git checkouts must have the exact origin and a clean worktree. The
+  installer can move a clean checkout to its pinned revision; a dirty or unexpected
+  checkout blocks the operation.
+- A failed new clone is removed. Managed checkouts live below
+  `~/.local/share/dotfiles/sources/`.
+- State writes are atomic. Each newly created link is recorded before the installer
+  continues to the next link.
+
+The source manifest is [`sources.json`](sources.json). It pins questionnaire,
+`pi-skill-toggle`, the four Pi examples, and the configured `pi-pstack-herdsman`
+package. [`pi-packages.json`](pi-packages.json) retains wider package provenance.
+The installer does not start Pi or install npm packages.
+
+The four Pi examples link to the installed
+`@earendil-works/pi-coding-agent` 1.4.0 release. If those files are absent,
+`dot plan` reports a blocked prerequisite instead of creating broken links.
+Questionnaire and `pi-skill-toggle` use sparse, pinned public Git checkouts.
+`pi-pstack-herdsman` remains a pinned Pi Git package in settings and is reconciled
+by Pi itself.
+
+## Windows step
+
+The installer does not write across the WSL/Windows boundary. Copy
+[`windows/.wezterm.lua`](windows/.wezterm.lua) to
+`%USERPROFILE%\.wezterm.lua` on Windows. It targets the `Ubuntu` WSL distro and
+uses `pwsh.exe`, with Monaspace Xenon and JetBrains Mono font preferences.
+
+## Local and private configuration
+
+Copy the examples in `templates/` outside the repository and add identity and
 private settings there. The localhost model endpoint is an intentional substitute;
-configure your actual endpoint and `LMSTUDIO_API_KEY` privately. MCP is disabled and
-has no authorization header. Telemetry is disabled; configure it privately if wanted.
-Git attribution uses a generic invalid-domain address unless local environment
-variables override it. The local Git include deliberately supplies no user identity.
+configure the real endpoint and `LMSTUDIO_API_KEY` privately. MCP and telemetry are
+disabled. Git attribution uses a generic invalid-domain address unless local
+environment variables override it.
 
-See [inventory](inventory.md), [tool dependencies](dependencies/tools.md),
+The npm manifest and lock are stored in `home/.pi/agent/npm/`. No package install
+or lifecycle script is run by `dot`; review `allowScripts` before separate use.
+
+See the [inventory](inventory.md), [tool dependencies](dependencies/tools.md),
 [Pi package provenance](pi-packages.json), and [skills](skills.json).
-`pi-npm/` preserves the existing npm manifests, not installed dependencies. No
-package install or lifecycle script has been run. Review `allowScripts` before use.
+
+## Verification status
+
+The normalized layout and `dot` installer were implemented without running any
+installer command or test. Historical checks for the earlier manual snapshot are
+recorded in the inventory and do not validate the new installer.
 
 ## Safe maintenance
 
-Run `python3 scripts/check-private-data` before sharing; it inspects Git candidates
-(including untracked, nonignored files), prints only rule names and relative file
-paths, and never uploads content. It is a heuristic, not a privacy guarantee.
-Manual review remains required, particularly prose and metadata. You may pass
-`--deny-file /path/outside/repo` containing one private literal per line for a local
-literal scan; matching literals are never printed. Do not put that file in Git.
+Run `python3 scripts/check-private-data` before sharing. It inspects Git candidates,
+prints only rule names and relative paths, and never uploads content. It is a
+heuristic, not a privacy guarantee. For a local literal scan, pass
+`--deny-file /path/outside/repo` with one private literal per line. Never add that
+file to Git. Manual review remains required.
 
-There is intentionally no raw `export-config` command. Updating this snapshot means
-selecting individual allowlisted files, inspecting them read-only, manually applying
-sanitization, and validating candidates before sharing. Never copy whole config roots,
-symlink targets, authentication stores or environment files. Never substitute a
-placeholder into an executable path and then enable it.
+There is intentionally no raw export command. Update individual allowlisted files,
+review the candidate content, then run the privacy check. Never copy whole config
+roots, symlink targets, authentication stores, or environment files.
 
-Nix scaffolding and `flake.lock` are omitted: this is a coherent manual snapshot,
-not an unverified package/deployment design. No Nix installation, evaluation or
-activation was attempted. Fresh-machine startup, package resolution, local services,
-model availability and cross-version extension compatibility remain unverified.
+Nix scaffolding remains omitted. No Nix installation, evaluation, or activation was
+attempted.

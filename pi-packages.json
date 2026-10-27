@@ -8,8 +8,8 @@
     "installTreeIncluded": false
   },
   "npm": {
-    "manifest": "pi-npm/package.json",
-    "lock": "pi-npm/package-lock.json",
+    "manifest": "home/.pi/agent/npm/package.json",
+    "lock": "home/.pi/agent/npm/package-lock.json",
     "packages": [
       {
         "name": "@ff-labs/pi-fff",
@@ -60,11 +60,12 @@
       "revision": "29ebc43b8b4afe7a6d667d4c36ad81f775d2c616",
       "sourcePath": "home/.pi/agent/extensions/pi-skill-toggle",
       "included": false,
+      "configuredSource": "../../.local/share/dotfiles/sources/dmmulroy-dotfiles/home/.pi/agent/extensions/pi-skill-toggle",
       "comparison": {
         "removedSnapshot": "20 of 22 upstream files are byte-identical at this revision",
         "acceptedUpstreamChange": "src/discovery/skill-locator.ts now deduplicates skill files by canonical real path; its test also differs because it covers that fix and uses the upstream synthetic home path"
       },
-      "reason": "The source is a nested package in a dotfiles repository. Pi Git package sources cannot select that subdirectory, so clone the pinned repository and add sourcePath as a local package."
+      "reason": "The source is a nested package in a dotfiles repository. The dot installer manages a sparse checkout at the pinned revision, and Pi settings load sourcePath from that checkout."
     },
     {
       "name": "pi-pstack-herdsman",
@@ -78,7 +79,7 @@
         "workingTree": "dirty",
         "workingTreePathCount": 37
       },
-      "reason": "Snapshot settings use the clean pinned GitHub package. Live Pi continues to use the local development checkout, whose uncommitted changes are not included.",
+      "reason": "Repository settings use the clean pinned GitHub package. The dot installer validates the declaration but leaves package reconciliation to Pi. Live Pi can continue to use its separate local development checkout.",
       "compatibilityWarning": "The public revision declares @earendil-works/pi-coding-agent >=1.1.0 <1.4.0 while this snapshot targets Pi 1.4.0."
     },
     {
@@ -102,56 +103,56 @@
   "extensions": [
     {
       "name": "questionnaire",
-      "configuredPath": "../../projects/pi-questionnaire/questionnaire.ts",
+      "configuredPath": "~/.pi/agent/extensions/questionnaire.ts",
       "source": "https://github.com/FireTheDevil/pi-questionnaire",
       "revision": "a7a7ef01c19f238d4c88f643cecce3636a7bdc05",
       "sourcePath": "questionnaire.ts",
       "included": false,
-      "status": "Referenced as a local extension path after a manual clone. The repository root has no Pi package manifest or conventional extensions directory, so it is not directly installable as a Pi Git package."
+      "status": "The dot installer creates a pinned sparse checkout and links this file into Pi's extension directory. The repository is not directly installable as a Pi Git package."
     },
     {
       "name": "confirm-destructive",
-      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/confirm-destructive.ts",
+      "configuredPath": "~/.pi/agent/extensions/confirm-destructive.ts",
       "source": "https://github.com/earendil-works/pi",
       "revision": "v1.4.0",
       "sourcePath": "packages/coding-agent/examples/extensions/confirm-destructive.ts",
       "included": false,
-      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+      "status": "The dot installer links the installed Pi 1.4.0 example into Pi's extension directory; no source copy is stored here"
     },
     {
       "name": "dirty-repo-guard",
-      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/dirty-repo-guard.ts",
+      "configuredPath": "~/.pi/agent/extensions/dirty-repo-guard.ts",
       "source": "https://github.com/earendil-works/pi",
       "revision": "v1.4.0",
       "sourcePath": "packages/coding-agent/examples/extensions/dirty-repo-guard.ts",
       "included": false,
-      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+      "status": "The dot installer links the installed Pi 1.4.0 example into Pi's extension directory; no source copy is stored here"
     },
     {
       "name": "permission-gate",
-      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/permission-gate.ts",
+      "configuredPath": "~/.pi/agent/extensions/permission-gate.ts",
       "source": "https://github.com/earendil-works/pi",
       "revision": "v1.4.0",
       "sourcePath": "packages/coding-agent/examples/extensions/permission-gate.ts",
       "included": false,
-      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+      "status": "The dot installer links the installed Pi 1.4.0 example into Pi's extension directory; no source copy is stored here"
     },
     {
       "name": "protected-paths",
-      "configuredPath": "install/releases/1.4.0/node_modules/@earendil-works/pi-coding-agent/examples/extensions/protected-paths.ts",
+      "configuredPath": "~/.pi/agent/extensions/protected-paths.ts",
       "source": "https://github.com/earendil-works/pi",
       "revision": "v1.4.0",
       "sourcePath": "packages/coding-agent/examples/extensions/protected-paths.ts",
       "included": false,
-      "status": "Loaded directly from the installed Pi release; no source copy is stored here"
+      "status": "The dot installer links the installed Pi 1.4.0 example into Pi's extension directory; no source copy is stored here"
     },
     {
-      "path": "config/pi/extensions/git-commit-attribution.ts",
+      "path": "home/.pi/agent/extensions/git-commit-attribution.ts",
       "provenance": "Local unversioned source",
       "status": "Included; sets runtime attribution flag"
     },
     {
-      "path": "config/pi/extensions/herdr-agent-state.ts",
+      "path": "home/.pi/agent/extensions/herdr-agent-state.ts",
       "provenance": "Herdr-managed output, integration version 9",
       "status": "Included as installed integration snapshot, not maintained custom source; only acts with Herdr runtime environment"
     },
@@ -173,5 +174,5 @@
     ],
     "backupsIncluded": false
   },
-  "reproducibility": "Partial snapshot only. Public external sources are revision-pinned, but their checkouts and Pi's install tree are not included. Dirty independent sources, absent tool pins and unversioned skills prevent full reproduction."
+  "reproducibility": "The dot installer manages pinned public checkouts and links but was not run or tested during implementation. Pi's install tree, dirty independent sources, absent tool pins and unversioned skills still prevent full reproduction."
 }

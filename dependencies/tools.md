@@ -5,16 +5,17 @@ This is an inventory, not an installation script or guarantee of version availab
 | Component | Requirement / observed source |
 | --- | --- |
 | Platform | Windows host with Ubuntu on WSL2; macOS setup is not documented |
-| Installer | Python 3 and Git; `dot` uses only the Python standard library and Git CLI |
+| Installer | Python 3 and Git; Node.js 22.20.0 or newer verifies locked skill hashes during `plan`/`check`, and `npm`/`npx` installs missing skills during `apply` |
 | WezTerm (Windows) | Nightly build `20261010-083911-e2a98e1b`; installation method not recorded. Configuration: [`windows/.wezterm.lua`](../windows/.wezterm.lua) |
 | Shell | Bash, Zsh; optional Oh My Zsh (`clean` theme, `git` plugin) |
 | Shell additions | Optional Bun completion, NVM and browser-use environment; guarded if absent |
 | Git | Linux Git; choose identity and credential helper privately |
-| Runtime | Node.js/npm for Pi; Bun and uv configuration is retained independently |
+| Runtime | Node.js/npm for Pi; the installer pins `skills@1.7.4`; Bun and uv configuration is retained independently |
 | Pi (WSL) | Configuration targets coding-agent release `1.4.0`; the four linked examples require that installed release, which is not bundled here |
 | Pi packages | Existing npm lock in `home/.pi/agent/npm/`; see `pi-packages.json` and `sources.json` for independent sources |
 | Terminal tools | Herdr runs in WSL; Hunk configuration is also preserved. Terminal image/hyperlink settings require compatible terminal support |
-| Browser QA | `browser-use` skill/CLI is an independent dependency; see skills provenance |
+| Skills | Public skills are pinned in [`skills-lock.json`](../skills-lock.json) and installed globally for Pi through skills.sh; `asd-ste-100-with-adhd` is the only copied skill |
+| Browser QA | The `browser-use` skill is locked, but its separate browser automation CLI remains an independent dependency |
 | Optional services | LM Studio and Obsidian MCP: intentionally localhost examples, MCP disabled; private configuration required |
 | Auth | Provider login, API credentials, environment and credential helpers are deliberately absent |
 
@@ -34,10 +35,11 @@ The nightly channel moves; this identifies the installed build, not a version pi
 The npm lock has registry-hosted tarball URLs and integrity hashes from the source;
 it does not pin all of the runtime, tools, private repositories, skills or model APIs.
 No package installation, dependency execution, TypeScript build, application startup,
-or fresh-machine verification was performed. The `dot` installer was not run or
-tested. Package `allowScripts` is preserved, not newly endorsed. Existing model IDs
-and the source model field `reaasoning` are retained rather than silently migrating
-uncertain schema/behavior.
+skills.sh command, or fresh-machine verification was performed. The `dot` installer
+was not run or behaviorally tested, so locally installed skills were unchanged.
+Package `allowScripts` is preserved, not newly endorsed. Existing model IDs and the
+source model field `reaasoning` are retained rather than silently migrating uncertain
+schema/behavior.
 
 No Nix files or fabricated lockfile are supplied. A future Home Manager design
 requires explicit tool ownership/version and deployment decisions and its own validation.

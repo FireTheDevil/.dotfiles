@@ -1,0 +1,261 @@
+{
+  "version": 1,
+  "skills": {
+    "anatomy": {
+      "source": "wheresryan22/anatomy",
+      "sourceUrl": "https://github.com/wheresryan22/anatomy.git",
+      "ref": "689dcf966e63d92be10a5d593c6e19e10acd4422",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "5e8699464cc059fbae60af030b707b314c6be5b9fc71c187711fc3abe48d9f46"
+    },
+    "animate": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/animate/SKILL.md",
+      "computedHash": "7598d33e7f60dd5c24531eaaa897621cc3bdb48e8050324211627973bc59c4ce"
+    },
+    "animate-expo": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/animate-expo/SKILL.md",
+      "computedHash": "5de09593d564091f9db60aabede7bed760251e118548272050a247c653c417d2"
+    },
+    "animation-vocabulary": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/animation-vocabulary/SKILL.md",
+      "computedHash": "0058036865ecbb864fd0c4132efcc62425355d6e99c7e6ef6a936742d62a5dea"
+    },
+    "browser-use": {
+      "source": "browser-use/browser-use",
+      "sourceUrl": "https://github.com/browser-use/browser-use.git",
+      "ref": "4476f6e16e557d1cf10cc40989a5479e17438d51",
+      "sourceType": "github",
+      "skillPath": "skills/browser-use/SKILL.md",
+      "computedHash": "9f3a097275554dc44356f37d17d445d9c2b5b3579332fa93a1e9422f465f01bb"
+    },
+    "code-review": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/code-review/SKILL.md",
+      "computedHash": "57cfd4ceb011f05e58a1a4f4cad3b2e03419d371f8990f4bcb32ff0d435a039f"
+    },
+    "domain-modeling": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/domain-modeling/SKILL.md",
+      "computedHash": "b3eb40152b81f0c98fd2095a023c019452dbdce56f7540cc67fece2972db8369"
+    },
+    "emil-design-eng": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/emil-design-eng/SKILL.md",
+      "computedHash": "51f2537e04d15911b41d78e2de24c36a0e26d41beae15e82a954fe5496a5eda9"
+    },
+    "find-animation-opportunities": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/find-animation-opportunities/SKILL.md",
+      "computedHash": "465d087c41768e4f14ed640dd049036009f613feb55baaa5831b68b33178f9d2"
+    },
+    "grill-with-docs": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/grill-with-docs/SKILL.md",
+      "computedHash": "35e62aa423aaeab6a414bcac273f56dfb17802ef2334b41b6a3b00f28196c8cf"
+    },
+    "grilling": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/grilling/SKILL.md",
+      "computedHash": "ef1641a2047b71b60f1942cd35efb47d3afc9d584dff5a0b01f8c7db923aaa08"
+    },
+    "hairline-create": {
+      "source": "lucasmarkes/hairline",
+      "sourceUrl": "https://github.com/lucasmarkes/hairline.git",
+      "ref": "eb57532745fa0c84eb78c547ecb3ad2efad73ff8",
+      "sourceType": "github",
+      "skillPath": "skills/hairline-create/SKILL.md",
+      "computedHash": "836906905802fe12e344719545b8ff4d99e3741af044454309b1f8dfe793a948"
+    },
+    "hallmark": {
+      "source": "nutlope/hallmark",
+      "sourceUrl": "https://github.com/nutlope/hallmark.git",
+      "ref": "498de2df1a26df80bad261b44757e15f32110ab2",
+      "sourceType": "github",
+      "skillPath": "skills/hallmark/SKILL.md",
+      "computedHash": "32269cfda7e467ba1e2534428a1186c1b7b28d196d0f3b3227d293512fa5f7ec"
+    },
+    "handoff": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/productivity/handoff/SKILL.md",
+      "computedHash": "8ebcf017c0a59681f3c2f1ebf90e32f481954a068181a75151c44aa2c55de4b4"
+    },
+    "hunk-review": {
+      "source": "modem-dev/hunk",
+      "sourceUrl": "https://github.com/modem-dev/hunk.git",
+      "ref": "392cb7f99661270ff77df1f6c6bae9d9f5a0f156",
+      "sourceType": "github",
+      "skillPath": "packages/hunk/skills/hunk-review/SKILL.md",
+      "computedHash": "45ab66c42e9586bc6b43a66a04a812c1520a1328a279c9f88660ca525c52f47a"
+    },
+    "impeccable": {
+      "source": "pbakaus/impeccable",
+      "sourceUrl": "https://github.com/pbakaus/impeccable.git",
+      "ref": "d631a8827f99414d2b6daba4ef08b7f8701751d7",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/impeccable/SKILL.md",
+      "computedHash": "de7de6829490819b3c18cfdad2c93d002bd428c4b738d29b971ef3dc8f911d08"
+    },
+    "implement": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/implement/SKILL.md",
+      "computedHash": "b6371a0a6723bad551f3adc721e3729a6a97acfc3670dc2bdea198bbe78408c0"
+    },
+    "improve-animations": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/improve-animations/SKILL.md",
+      "computedHash": "524ea241e41d58bbdd8e288700fe24f5725e2a2f3ae7186ad7cebf9055058356"
+    },
+    "improve-codebase-architecture": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/improve-codebase-architecture/SKILL.md",
+      "computedHash": "ac2c94885f34ff8492dc12aa4543182f661f32ea1722b8d6b6c2c7045af33ae3"
+    },
+    "install-anti-slop": {
+      "source": "dmmulroy/anti-slop",
+      "sourceUrl": "https://github.com/dmmulroy/anti-slop.git",
+      "ref": "e6676e8d0bf17c678cb45b9dacb2bd6ca8dea53a",
+      "sourceType": "github",
+      "skillPath": "skills/install-anti-slop/SKILL.md",
+      "computedHash": "4031728fbe75bdcad6ee3208fd52b5d66e167b056fefee1fa9758e9a6cb9c0c8"
+    },
+    "pick-ui-library": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/pick-ui-library/SKILL.md",
+      "computedHash": "5d2a77bf0ecafbda85aa95fb49999b6d77945d9066ec83d970b62e5b388cd686"
+    },
+    "pr": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/pr/SKILL.md",
+      "computedHash": "22a15d4d469344b38e03eb0e95772478393975836289393b1bad3c0febcdc679"
+    },
+    "prototype": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/prototype/SKILL.md",
+      "computedHash": "d3fc74689bd993e39c44bfae510d014eecffbeec2922764b065377fd1327c0f6"
+    },
+    "qa": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "d53cabc38325c1c0ac60ab59d357f51783200cf6",
+      "sourceType": "github",
+      "skillPath": "skills/deprecated/qa/SKILL.md",
+      "computedHash": "223de2b02aa9ab36cfa4fe93e80e527b56e912e7ae725f9d596f6d2457afab77"
+    },
+    "review-animations": {
+      "source": "emilkowalski/skills",
+      "sourceUrl": "https://github.com/emilkowalski/skills.git",
+      "ref": "2d228630ba1446365f614a108cb8252f1feda202",
+      "sourceType": "github",
+      "skillPath": "skills/review-animations/SKILL.md",
+      "computedHash": "b4e5f0f4fe3e2743c85bf7354108f48a0b9d502cb20ef5c4a9c195da91f93736"
+    },
+    "setup-matt-pocock-skills": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/setup-matt-pocock-skills/SKILL.md",
+      "computedHash": "1d35d0afa3ded88c9324d38db08b2cff91cd03e0e11d64786bee41385cd7b9fb"
+    },
+    "shadcn": {
+      "source": "shadcn/ui",
+      "sourceUrl": "https://github.com/shadcn/ui.git",
+      "ref": "2d3f1cd436b18ea12f24130de4df781355925b08",
+      "sourceType": "github",
+      "skillPath": "skills/shadcn/SKILL.md",
+      "computedHash": "da388f632cd83783c02967446e21941c9ee8291ccb43ba74c23f7d4e9b7c298c"
+    },
+    "thermo-nuclear-code-quality-review": {
+      "source": "cursor/plugins",
+      "sourceUrl": "https://github.com/cursor/plugins.git",
+      "ref": "6e3d2ea56d7d446b955eaae6ac4c8eef8bf504cf",
+      "sourceType": "github",
+      "skillPath": "cursor-team-kit/skills/thermo-nuclear-code-quality-review/SKILL.md",
+      "computedHash": "9052b01b46b1d8dbf94c45f9313ec1983443f9a460e83d49cdc7fe0f640ca476"
+    },
+    "to-spec": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-spec/SKILL.md",
+      "computedHash": "3fa1a0695d4ea242fae9e569e4d22aa1788623197abb33bfadafae7315789bbf"
+    },
+    "to-tickets": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/to-tickets/SKILL.md",
+      "computedHash": "5f871bdc46a9212222214ba399be4965374208af1bd7f48f1271bef72841dd31"
+    },
+    "typesafe-ai": {
+      "source": "typesafe-ai/skills",
+      "sourceUrl": "https://github.com/typesafe-ai/skills.git",
+      "ref": "65a39f393687675ce170e6094757de20370365b9",
+      "sourceType": "github",
+      "skillPath": "skills/typesafe-ai/SKILL.md",
+      "computedHash": "9cd84c5e535dec8dec59917c110f9c00b4a61faadb86b432ec7e41051170af12"
+    },
+    "wayfinder": {
+      "source": "mattpocock/skills",
+      "sourceUrl": "https://github.com/mattpocock/skills.git",
+      "ref": "b59cab42bf1206e1363eafc37f71b21c3bcaa12f",
+      "sourceType": "github",
+      "skillPath": "skills/engineering/wayfinder/SKILL.md",
+      "computedHash": "71d1296ae9f1ea0397f385f72d11ca3473827f5d067df4d06c58eb03377a57ce"
+    }
+  }
+}

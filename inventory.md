@@ -3,7 +3,8 @@
 Only the individual sources listed below were copied or reconstructed. The `home/`
 tree now mirrors their deployment paths; there are no whole-root copies. Public Pi
 examples, `questionnaire`, and `pi-skill-toggle` remain external and are declared in
-`sources.json` rather than copied into this snapshot.
+`sources.json` rather than copied into this snapshot. Public skills are locked in
+`skills-lock.json`; only the customized `asd-ste-100-with-adhd` skill is copied.
 
 | Snapshot candidate | Source relative to home |
 | --- | --- |
@@ -42,10 +43,13 @@ examples, `questionnaire`, and `pi-skill-toggle` remain external and are declare
   the Python standard library.
 - `sources.json` pins managed public sources, Pi example paths, package declarations,
   the installer data root, and the ownership-state path.
+- `skills-lock.json` pins the public skill repositories, revisions, source paths,
+  and content hashes used by the skills.sh installation step.
 
 The installer creates only individual WSL home-file links. It records only links it
-creates, refuses existing nonmatching targets, and retains checkouts during unlink.
-The Windows WezTerm copy remains a manual step.
+creates, refuses existing nonmatching targets, installs missing locked skills globally
+for Pi, and retains checkouts and skills during unlink. The Windows WezTerm copy
+remains a manual step.
 
 ## Deliberate transformations
 
@@ -60,10 +64,10 @@ The Windows WezTerm copy remains a manual step.
   a nonidentifying absolute file-URL example. It is snapshot content, not stripped.
 - Model endpoint is localhost and API key is an environment-variable name. MCP is
   disabled, localhost-only and stripped of authorization headers.
-- Settings omit device/changelog state and private local project references;
-  telemetry is disabled. Missing enabled skills are not silently turned into working
-  dependencies. The installer links four Pi 1.4.0 examples and `questionnaire` into
-  Pi's extension directory, where normal extension discovery can load them.
+- Settings omit device/changelog state, private local project references, and obsolete
+  per-directory skill overrides; telemetry is disabled. The installer links four Pi
+  1.4.0 examples and `questionnaire` into Pi's extension directory and installs the
+  source-verified skills locked for global Pi discovery.
 - FFF database path overrides were removed in favor of package defaults, avoiding
   unsupported literal environment substitutions. No databases are included.
 - Commit attribution remains functional, with an intentionally generic invalid-domain
@@ -96,13 +100,14 @@ The normalized snapshot and installer are not activated. Models and package rele
 are only observed source configuration, not proof of future availability. The source
 model schema typo `reaasoning` is retained and requires checking against the intended
 Pi version. Global hook forwarding and terminal integration are preserved but not
-runtime-tested. Nix scaffolding is deferred; no `flake.lock` was fabricated.
+runtime-tested. The skills.sh installation path is also untested. Nix scaffolding is
+deferred; no `flake.lock` was fabricated.
 
 ## Additional explicit source allowlist
 
 External code is not part of the snapshot allowlist. Its public repository,
-revision, source path, and integration limit are recorded in `sources.json` and
-`pi-packages.json`.
+revision, source path, and integration limit are recorded in `sources.json`,
+`pi-packages.json`, and `skills-lock.json`.
 
 | Snapshot candidate | Source relative to home |
 | --- | --- |
@@ -112,54 +117,6 @@ revision, source path, and integration limit are recorded in `sources.json` and
 | `home/.pi/agent/skills/asd-ste-100-with-adhd/SKILL.md` | `.pi/agent/skills/asd-ste-100-with-adhd/SKILL.md` |
 | `home/.pi/agent/skills/asd-ste-100-with-adhd/examples/before-after.md` | `.pi/agent/skills/asd-ste-100-with-adhd/examples/before-after.md` |
 | `home/.pi/agent/skills/asd-ste-100-with-adhd/references/writing-rules.md` | `.pi/agent/skills/asd-ste-100-with-adhd/references/writing-rules.md` |
-| `home/.pi/agent/skills/install-anti-slop/SKILL.md` | `.pi/agent/skills/install-anti-slop/SKILL.md` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/index.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/index.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-manual-effect-error-tag.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-manual-effect-error-tag.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-manual-tag-comparison.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-manual-tag-comparison.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-manual-tagged-construction.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-manual-tagged-construction.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-service-constructor-imports.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/no-service-constructor-imports.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/prefer-effect-match.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/rules/prefer-effect-match.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/shared/tagged-values.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/effect/shared/tagged-values.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/index.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/index.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-array-filter-map.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-array-filter-map.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-chained-type-assertions.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-chained-type-assertions.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-conditional-empty-object-spread.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-conditional-empty-object-spread.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-known-value-widening.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-known-value-widening.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-module-mocking.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-module-mocking.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-object-parameters.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-object-parameters.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-reduce-accumulator-copy.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-reduce-accumulator-copy.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-reflect-apply.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-reflect-apply.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-reflect-get.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-reflect-get.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-runtime-typeof.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-runtime-typeof.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-shape-in-symbol-names.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-shape-in-symbol-names.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unknown-parameters.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unknown-parameters.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unknown-returns.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unknown-returns.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unknown-type-aliases.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unknown-type-aliases.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unsafe-dictionary-type.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-unsafe-dictionary-type.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-widen-then-assert.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/no-widen-then-assert.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/require-readable-spacing.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/require-readable-spacing.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/require-safety-comment-for-type-assertion.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/rules/require-safety-comment-for-type-assertion.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/array-method.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/array-method.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/dictionary-types.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/dictionary-types.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/function-parameters.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/function-parameters.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/lexical-type-parameters.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/lexical-type-parameters.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/reflect-method.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/reflect-method.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/scope.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/scope.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/type-alias-resolution.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/shared/type-alias-resolution.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/LICENSE` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/LICENSE` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/UPSTREAM.md` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/UPSTREAM.md` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/padding-line-ast.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/padding-line-ast.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/padding-line-between-statements.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/padding-line-between-statements.ts` |
-| `home/.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/padding-line-options.d.ts` | `.pi/agent/skills/install-anti-slop/assets/anti-slop/vendor/eslint-stylistic/padding-line-options.d.ts` |
-| `home/.pi/agent/skills/install-anti-slop/references/update.md` | `.pi/agent/skills/install-anti-slop/references/update.md` |
-| `home/.pi/agent/skills/install-anti-slop/scripts/install.mjs` | `.pi/agent/skills/install-anti-slop/scripts/install.mjs` |
-| `home/.pi/agent/skills/qa/SKILL.md` | `.pi/agent/skills/qa/SKILL.md` |
-| `home/.pi/agent/skills/strict-tdd/SKILL.md` | `.pi/agent/skills/strict-tdd/SKILL.md` |
-| `home/.pi/agent/skills/strict-tdd/mocking.md` | `.pi/agent/skills/strict-tdd/mocking.md` |
-| `home/.pi/agent/skills/strict-tdd/tests.md` | `.pi/agent/skills/strict-tdd/tests.md` |
-| `home/.pi/agent/skills/thermo-nuclear-code-quality-review/SKILL.md` | `.pi/agent/skills/thermo-nuclear-code-quality-review/SKILL.md` |
-| `home/.pi/agent/skills/typesafe-ai/LICENSE` | `.pi/agent/skills/typesafe-ai/LICENSE` |
-| `home/.pi/agent/skills/typesafe-ai/SKILL.md` | `.pi/agent/skills/typesafe-ai/SKILL.md` |
 | `preserved/disabled-subagent/index.ts` | `.pi/agent/extensions/subagent/index.ts` |
 | `preserved/disabled-subagent/agents.ts` | `.pi/agent/extensions/subagent/agents.ts` |
 | `preserved/disabled-subagent/config.json` | `.pi/agent/extensions/subagent/config.json` |
@@ -170,12 +127,11 @@ agent Markdown definitions or workflow presets were copied. It is not safe to
 reactivate without compatibility and headless approval review. Its README preserves
 historical instructions, not a deployment recommendation.
 
-Local skill availability does not demonstrate recent use. Preserve these local
-sources with their support files and licenses rather than guessing that they are
-obsolete. The explicitly excluded strict-tdd skill stays excluded. Shared-tree
-skills remain external with honest missing-revision/activity gaps in `skills.json`.
-Herdr's extension is managed output and may be regenerated by its own tooling; its
-portable runtime code is preserved, not host OS terminal configuration.
+The customized `asd-ste-100-with-adhd` directory is the only copied skill. Third-party
+skills are restored from `skills-lock.json` instead of vendored snapshots. Skills
+without verified public source metadata are not inferred or silently added. Herdr's
+extension is managed output and may be regenerated by its own tooling; its portable
+runtime code is preserved, not host OS terminal configuration.
 
 ## External Pi sources
 
@@ -189,6 +145,13 @@ portable runtime code is preserved, not host OS terminal configuration.
   `29ebc43b8b4afe7a6d667d4c36ad81f775d2c616`. This accepts the upstream
   canonical-realpath deduplication fix. The removed copy matched 20 of 22 files;
   the production fix and its expanded test are the two differences.
+- `skills-lock.json` records 32 source-verified public skills from 12 GitHub
+  repositories. Each entry has a full commit and a skills@1.7.4 content hash. QA is
+  pinned to its own historical Matt Pocock commit because the newer shared commit no
+  longer contains that directory.
+- `dot apply` installs missing locked skills with `skills@1.7.4`, global scope, and
+  the Pi target. It refuses modified canonical directories and separate Pi-specific
+  copies rather than replacing them. No skills.sh command was run for this change.
 - Repository settings load `pi-pstack-herdsman` from the clean pinned GitHub
   package. Live Pi continues to use its local development checkout, whose 37
   uncommitted paths are not included. Public HEAD declares a Pi peer range below
@@ -199,10 +162,13 @@ only `bash`, and `protected-paths` matches only `write` and `edit`.
 
 ## Current verification status
 
-No `dot` command, installer test, syntax check, privacy check, or deployment was run
-after layout normalization and installer implementation. The executable was not
-applied to this machine. The sections below are historical evidence for the earlier
-manual snapshot only.
+No `dot` command, installer behavior test, skills.sh command, or deployment was run
+after adding locked skill installation. Locally installed skills and skills.sh state
+were not changed. Static checks parsed the installer source and all 15 JSON files,
+validated the lock's counts and ordering, passed `git diff HEAD --check`, and found
+no private-data matches in 49 candidate files. Read-only provenance work matched all
+32 locked skills to the recorded upstream commits and content hashes. The sections
+below are historical evidence for the earlier manual snapshot only.
 
 ## Historical verification after externalization, before normalization
 

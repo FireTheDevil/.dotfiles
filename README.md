@@ -1,18 +1,23 @@
 # Windows + WSL2 development setup
 
-This repository manages my Windows host and Ubuntu-on-WSL2 development setup.
+This repository documents my live Windows host and Ubuntu-on-WSL2 development setup.
 The `home/` tree mirrors the WSL home directory. WezTerm runs on Windows, while
 Pi and Herdr run in WSL. My macOS configuration is not yet documented.
 
 The tracked configuration is sanitized. It excludes secrets, personal identity,
 private server addresses, authentication stores, and private repository URLs.
 
+The current Pi snapshot was refreshed on **2026-11-01**. It records what is running,
+not a recommendation to upgrade or a certification of upstream compatibility.
+See [Pi workflow and skill ownership](dependencies/pi-workflow.md). The optional
+installer normalizes paths; it has not been applied to the live setup.
+
 ## Install in WSL
 
 Prerequisites:
 
 - Git and Python 3
-- Node.js 22.20.0 or newer with `npm`/`npx`
+- Node.js 24 or newer with `npm`/`npx` (live: 24.22.1; pstack requires 24+)
 - Pi 1.4.0 installed, including the four example extension source files
 - A Windows-side WezTerm installation for the separate manual step
 
@@ -68,7 +73,7 @@ by Pi itself.
 revisions, source paths, and content hashes. `dot apply` uses `skills@1.7.4` through
 `npx` and targets Pi's global `~/.agents/skills` directory. It does not update,
 replace, or remove a skill whose content differs from the lock. `dot unlink` leaves
-skills.sh installations in place. The customized `asd-ste-100-with-adhd` skill is
+skills.sh installations in place. The customized `asd-ste100-with-adhd` skill is
 the only skill copied into this repository.
 
 ## Windows step
@@ -94,12 +99,11 @@ See the [inventory](inventory.md), [tool dependencies](dependencies/tools.md),
 
 ## Verification status
 
-The normalized layout and `dot` installer were implemented without running any
-installer command or behavioral test. The skills.sh installation path was also not
-run, so this change did not modify locally installed skills. Historical checks for
-the earlier manual snapshot are recorded in the inventory and do not validate the
-new installer. Static syntax, JSON, whitespace, and privacy checks did not execute
-`dot`, `npx`, or skills.sh.
+Read-only `dot check` was run during the November snapshot refresh. The live setup
+is not installer-owned, so existing-file and skill-ownership conflicts are expected;
+they are not a Pi runtime failure. See the inventory for verification details.
+No `dot apply`, package installation, skills.sh command, or fresh-machine deployment
+was performed. Live files and installed skills were not changed.
 
 ## Safe maintenance
 

@@ -18,13 +18,13 @@
       },
       {
         "name": "@heyhuynhgiabuu/pi-pretty",
-        "requested": "^0.7.1",
-        "lockedVersion": "0.7.1"
+        "requested": "^0.8.0",
+        "lockedVersion": "0.8.0"
       },
       {
         "name": "@howaboua/pi-codex-conversion",
-        "requested": "^4.0.1",
-        "lockedVersion": "4.0.1"
+        "requested": "^4.0.7",
+        "lockedVersion": "4.0.7"
       },
       {
         "name": "@howaboua/pi-codex-guardian",
@@ -32,24 +32,29 @@
         "lockedVersion": "0.0.1"
       },
       {
+        "name": "@howaboua/pi-notes-compaction",
+        "requested": "^0.0.13",
+        "lockedVersion": "0.0.13"
+      },
+      {
         "name": "@plannotator/pi-extension",
-        "requested": "^0.28.22",
-        "lockedVersion": "0.28.22"
+        "requested": "^0.28.42",
+        "lockedVersion": "0.28.42"
       },
       {
         "name": "pi-context-view",
-        "requested": "^0.7.1",
-        "lockedVersion": "0.7.1"
+        "requested": "^0.8.2",
+        "lockedVersion": "0.8.2"
       },
       {
         "name": "pi-herdsman",
-        "requested": "^0.27.0",
-        "lockedVersion": "0.27.0"
+        "requested": "^0.36.3",
+        "lockedVersion": "0.36.3"
       },
       {
         "name": "pi-web-access",
-        "requested": "^0.41.0",
-        "lockedVersion": "0.41.0"
+        "requested": "^0.46.0",
+        "lockedVersion": "0.46.0"
       }
     ]
   },
@@ -70,34 +75,25 @@
     {
       "name": "pi-pstack-herdsman",
       "source": "https://github.com/FireTheDevil/pi-pstack-herdsman",
-      "revision": "76943c5d023ce53ebab71316d6983faaf0705c3b",
-      "sourceRef": "master",
-      "configuredSource": "git:github.com/FireTheDevil/pi-pstack-herdsman@76943c5d023ce53ebab71316d6983faaf0705c3b",
+      "revision": "efc173dac343cd1fd9bf11bcc01af6907ecd0c33",
+      "sourceRef": "update/pstack-upstream-0.15.34",
+      "configuredSource": "git:github.com/FireTheDevil/pi-pstack-herdsman@efc173dac343cd1fd9bf11bcc01af6907ecd0c33",
       "included": true,
       "liveIntegration": {
         "path": "../../projects/pi-pstack-herdsman",
-        "workingTree": "dirty",
-        "workingTreePathCount": 37
+        "workingTree": "clean",
+        "workingTreePathCount": 0
       },
-      "reason": "Repository settings use the clean pinned GitHub package. The dot installer validates the declaration but leaves package reconciliation to Pi. Live Pi can continue to use its separate local development checkout.",
-      "compatibilityWarning": "The public revision declares @earendil-works/pi-coding-agent >=1.1.0 <1.4.0 while this snapshot targets Pi 1.4.0."
+      "reason": "Records the revision used by live Pi in its local checkout. Snapshot settings use the same revision as a pinned Git package; the source is not vendored. No live package or upstream manifest was changed.",
+      "compatibilityWarning": "Observed live combination: Pi 1.4.0, pi-herdsman 0.36.3, Node 24.22.1. This revision declares Pi >=1.1.0 <1.4.0 and pi-herdsman >=0.25.1 <0.30.0, plus Node >=24. The live combination is outside declared peer ranges; recording it does not certify compatibility."
     },
     {
       "name": "pi-otlp",
       "source": "<PRIVATE_LOCAL_PI_OTLP_SOURCE>",
-      "revision": "c2a8ebeb87b6e264790bc057177aae76437eb734",
-      "sourceWorkingTree": "dirty",
+      "revision": "0d3609daf69efe8b6f4ede19b02748584edccdf0",
+      "sourceWorkingTree": "clean",
       "included": false,
-      "reason": "Independently repository-owned; revision alone cannot recreate live modifications. Obtain that working tree separately before re-enabling. Telemetry disabled in snapshot.",
-      "dirtyPaths": [
-        "src/commands/otel.ts",
-        "src/index.ts",
-        "src/otel/sdk.ts",
-        "src/pi-version.ts",
-        "test/sdk.test.js",
-        "EXPORT-RELIABILITY-PLAN.md",
-        "src/otel/probe.ts"
-      ]
+      "reason": "Externally owned private local source, observed clean at this revision. Live Pi loads it; this snapshot intentionally omits the package entry and disables telemetry. Obtain and configure it privately if needed."
     }
   ],
   "extensions": [
@@ -174,5 +170,6 @@
     ],
     "backupsIncluded": false
   },
-  "reproducibility": "The dot installer manages pinned public checkouts and links but was not run or tested during implementation. Pi's install tree, dirty independent sources, absent tool pins and unversioned skills still prevent full reproduction."
+  "reproducibility": "Documents the observed live setup with intentional privacy transformations and normalized deployment paths. Local/private skills and telemetry sources remain externally owned. Read-only dot check reports existing-file ownership conflicts; no apply, install, or fresh-machine verification was performed.",
+  "observedDate": "2026-11-01"
 }

@@ -1,0 +1,16 @@
+{
+  "active": "all",
+  "modelWhitelist": [
+    "gpt-6-astra",
+    "gpt-6-sol",
+    "gpt-6-luna",
+    "gpt-6.1-sol"
+  ],
+  "normalCompaction": true,
+  "rankedHistorySearch": true,
+  "noteSaveMarkers": true,
+  "shareSubagentContext": true,
+  "newWindowRequests": "unrestricted",
+  "idleMinutes": 715,
+  "taskBoundaryReminder": 0
+}

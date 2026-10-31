@@ -10,11 +10,11 @@ This is an inventory, not an installation script or guarantee of version availab
 | Shell | Bash, Zsh; optional Oh My Zsh (`clean` theme, `git` plugin) |
 | Shell additions | Optional Bun completion, NVM and browser-use environment; guarded if absent |
 | Git | Linux Git; choose identity and credential helper privately |
-| Runtime | Node.js/npm for Pi; the installer pins `skills@1.7.4`; Bun and uv configuration is retained independently |
+| Runtime | Live Node.js 24.22.1; pstack requires Node >=24. The installer pins `skills@1.7.4`; Bun and uv configuration is retained independently |
 | Pi (WSL) | Configuration targets coding-agent release `1.4.0`; the four linked examples require that installed release, which is not bundled here |
 | Pi packages | Existing npm lock in `home/.pi/agent/npm/`; see `pi-packages.json` and `sources.json` for independent sources |
 | Terminal tools | Herdr runs in WSL; Hunk configuration is also preserved. Terminal image/hyperlink settings require compatible terminal support |
-| Skills | Public skills are pinned in [`skills-lock.json`](../skills-lock.json) and installed globally for Pi through skills.sh; `asd-ste-100-with-adhd` is the only copied skill |
+| Skills | Public skills are pinned in [`skills-lock.json`](../skills-lock.json); actual live ownership and external skills are recorded in [Pi workflow](pi-workflow.md). `asd-ste100-with-adhd` is the only copied skill |
 | Browser QA | The `browser-use` skill is locked, but its separate browser automation CLI remains an independent dependency |
 | Optional services | LM Studio and Obsidian MCP: intentionally localhost examples, MCP disabled; private configuration required |
 | Auth | Provider login, API credentials, environment and credential helpers are deliberately absent |
@@ -35,8 +35,8 @@ The nightly channel moves; this identifies the installed build, not a version pi
 The npm lock has registry-hosted tarball URLs and integrity hashes from the source;
 it does not pin all of the runtime, tools, private repositories, skills or model APIs.
 No package installation, dependency execution, TypeScript build, application startup,
-skills.sh command, or fresh-machine verification was performed. The `dot` installer
-was not run or behaviorally tested, so locally installed skills were unchanged.
+skills.sh command, or fresh-machine verification was performed. Only read-only
+`dot check` was run; locally installed skills were unchanged.
 Package `allowScripts` is preserved, not newly endorsed. Existing model IDs and the
 source model field `reaasoning` are retained rather than silently migrating uncertain
 schema/behavior.

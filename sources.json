@@ -59,8 +59,8 @@
     {
       "id": "pi-pstack-herdsman",
       "repository": "https://github.com/FireTheDevil/pi-pstack-herdsman.git",
-      "revision": "76943c5d023ce53ebab71316d6983faaf0705c3b",
-      "configuredSource": "git:github.com/FireTheDevil/pi-pstack-herdsman@76943c5d023ce53ebab71316d6983faaf0705c3b"
+      "revision": "efc173dac343cd1fd9bf11bcc01af6907ecd0c33",
+      "configuredSource": "git:github.com/FireTheDevil/pi-pstack-herdsman@efc173dac343cd1fd9bf11bcc01af6907ecd0c33"
     }
   ],
   "manualSteps": [

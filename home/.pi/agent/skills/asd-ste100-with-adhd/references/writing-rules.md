@@ -1,10 +1,10 @@
 # ASD-STE100 Writing Rules — Summary and Sources
 
-This file summarizes the public, official description of ASD-STE100 (Simplified Technical English). It paraphrases rule *categories*. It does not reproduce the standard's text or its ~900-word dictionary verbatim. For the authoritative document, request the free download at the official site.
+This background summary draws on the official and secondary sources below. It paraphrases ASD-STE100 (Simplified Technical English) rule categories, not all their conditions and exceptions. It does not include the official dictionary and cannot establish compliance. For authoritative rules and word meanings, [request the standard](https://www.asd-ste100.org/request.html).
 
 ## What ASD-STE100 Is
 
-ASD-STE100 is a controlled natural language, first released in 1986 (as AECMA Document PSC-85-16598) by what is now ASD (the AeroSpace and Defense Industries Association of Europe). It was built at the request of European airlines — most staffed by non-native English speakers — who needed maintenance documentation that could not be misread, because a misread instruction on an aircraft can kill people. The standard is maintained by the Simplified Technical English Maintenance Group (STEMG) and has been free to download since Issue 6 (2013). The current edition is Issue 9 (January 2025).
+ASD-STE100 is a controlled natural language, first released in 1986 (as AECMA Document PSC-85-16598) by what is now ASD (the AeroSpace and Defense Industries Association of Europe). It was developed to make aircraft maintenance documentation easier to understand, particularly for readers whose first language is not English. The standard is maintained by the Simplified Technical English Maintenance Group (STEMG) and has been free to download since Issue 6 (2013). This summary refers to Issue 9 (January 2025).
 
 ## Structure
 
@@ -22,9 +22,11 @@ ASD-STE100 is a controlled natural language, first released in 1986 (as AECMA Do
 - Do not make phrasal verbs by putting a verb and a preposition together (Rule 9.3). Their meaning is not predictable from the parts, and non-native readers and translation systems both mishandle them.
 
 **Verb forms**
-- Permitted forms: infinitive, imperative, simple present, simple past, simple future, and past participle used only as an adjective.
-- No present perfect, past perfect, or other compound/auxiliary constructions. "We have received" is not allowed. "We received" is allowed.
+- STE uses infinitives, imperatives, simple present, simple past, and simple future. Past participles can be adjectives or form passive constructions where permitted (see Voice below).
+- STE restricts perfect and progressive verb forms. This is not a blanket ban on auxiliaries: simple future can use "will", and passive constructions use forms of "be".
 - "-ing" forms are permitted only as a technical noun or as part of a technical noun, not as a verb form.
+
+For this skill's flexible adaptation, retain a compound form when a simpler form would change time, duration, or uncertainty. "May have occurred" must not become "occurred".
 
 **Voice**
 - Active voice is required for procedures and instructions.
@@ -45,7 +47,7 @@ ASD-STE100 is a controlled natural language, first released in 1986 (as AECMA Do
 **Safety instructions**
 - Safety-critical instructions must open with a clear command or condition, not be buried mid-sentence.
 
-## Why This Skill Repurposes STE for Agent Output
+## Why This Skill Repurposes STE for Agent Output and User Communication
 
 STE was designed to eliminate ambiguity for a reader who cannot ask a follow-up question — a technician on a tarmac, working from a manual, with no author to call. An AI agent parsing another agent's output, a tool description, or a system message is in the same position: no back-channel to resolve "does this passive-voice sentence mean the caller does X, or the callee does X?" The same rule set that protects an airline mechanic from a misread torque spec protects a downstream agent from a misread instruction.
 

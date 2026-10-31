@@ -3,13 +3,14 @@
   "private": true,
   "dependencies": {
     "@ff-labs/pi-fff": "^0.11.0",
-    "@heyhuynhgiabuu/pi-pretty": "^0.7.1",
-    "@howaboua/pi-codex-conversion": "^4.0.1",
+    "@heyhuynhgiabuu/pi-pretty": "^0.8.0",
+    "@howaboua/pi-codex-conversion": "^4.0.7",
     "@howaboua/pi-codex-guardian": "^0.0.1",
-    "@plannotator/pi-extension": "^0.28.22",
-    "pi-context-view": "^0.7.1",
-    "pi-herdsman": "^0.27.0",
-    "pi-web-access": "^0.41.0"
+    "@howaboua/pi-notes-compaction": "^0.0.13",
+    "@plannotator/pi-extension": "^0.28.42",
+    "pi-context-view": "^0.8.2",
+    "pi-herdsman": "^0.36.3",
+    "pi-web-access": "^0.46.0"
   },
   "allowScripts": {
     "node-pty@1.1.0": true,

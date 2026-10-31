@@ -1,25 +1,27 @@
 # Before / After Examples
 
-## Part 1 — Official STE Examples
+## Part 1 — Sentence-Level Examples
 
-These illustrate real ASD-STE100 rules, drawn from public secondary sources (see `references/writing-rules.md`). They are paraphrased illustrations of the rule, not quotes from the standard itself.
+These examples illustrate this skill's flexible, STE-inspired guidance. They are not official examples or verified dictionary-compliant text. See the [writing rules and sources](../references/writing-rules.md) for background.
 
 | Rule | Before | After | Why |
 |---|---|---|---|
-| One meaning per word | "Verify the system." / "Check the connections." / "Confirm receipt." | "Make sure the system is correct." (one approved term used consistently) | Three near-synonyms force the reader to guess whether they mean the same action. |
+| Consistent terminology | "Open the settings panel. Close the preferences panel when you finish." (Both names refer to the same panel.) | "Open the settings panel. Close the settings panel when you finish." | Use one term for one component. Do not merge terms for different concepts. |
 | One part of speech per word | "Oil the valve." | "Apply oil to the valve." | If "oil" is approved only as a noun, using it as a verb breaks the one-word-one-role guarantee. |
 | Precise verb meaning | "Follow the safety instructions." | "Obey the safety instructions." | "Follow" can mean "come after" or "obey" — STE picks the unambiguous one. |
-| Simple tense only | "We have received the technical reports from HQ." | "We received the technical reports from HQ." | Present perfect adds a second parse ("received, and still relevant now?") that simple past avoids. |
+| Preserve uncertainty | "It is possible that the request has failed." | "The request may have failed." | Remove filler without turning a possible failure into a confirmed failure. Keep the compound form needed to preserve meaning. |
 | Verb, not noun | "Perform an inspection of the filter." | "Inspect the filter." | The noun form hides the action and adds a filler verb that carries no meaning. |
 | No phrasal verbs | "Take off the access panel." | "Remove the access panel." | "Take off" also means "depart" and "deduct" — the two words together do not predict the meaning. |
 
-## Part 2 — Applied to Agent Output
+## Part 2 — Rewrites and User-Facing Communication
 
-These are original examples built for this skill's actual use case: rewriting AI agent output so another agent, a translation layer, or a non-native reader can parse it without ambiguity. They are illustrations, not quotes from any real system.
+These fictional examples show how to rewrite prose and communicate with the user. They cover explanations, answers, progress updates, and recommendations. Reported checks belong to the examples; they are not claims about checks performed in the current conversation.
 
-Word counts below are whitespace-separated tokens (`text.split()`), punctuation not counted separately. A different tokenizer will produce a different number.
+Each rewrite preserves the supplied meaning. Additional recommendations are labelled separately and are not part of the rewritten text. Sentence-length targets are guides, not pass/fail limits.
 
 ### Example A — Tool description
+
+**Given context:** Manual review applies to every unresolved conflict. If this context is missing, clarify what "or otherwise" covers before choosing a fallback condition.
 
 **Before:**
 > This tool will attempt to synchronize state across the various backends that have been configured, and if a conflict is detected it may resolve it automatically depending on the strategy that has been set, or otherwise it will surface the conflict for manual review.
@@ -32,9 +34,9 @@ Word counts below are whitespace-separated tokens (`text.split()`), punctuation 
 Note what is *not* flagged: "will attempt to" and "may resolve". Those are hedges, not violations. The tool is not promised to succeed, and the rewrite must not promise it either.
 
 **After:**
-> The tool tries to synchronize state across the configured backends. If it finds a conflict, it reads the configured strategy. If the strategy allows automatic resolution, the tool may resolve the conflict without a user. If the tool does not resolve the conflict, it reports the conflict for manual review.
+> The tool tries to synchronize state across the configured backends. If it detects a conflict, it may resolve it automatically, depending on the configured strategy. If the conflict remains unresolved, the tool reports it for manual review.
 
-The last sentence branches on whether the conflict was resolved, not on what the strategy allows. That is what "or otherwise" meant in the original: the fallback covers a permitted resolution that still did not happen.
+The rewrite uses the supplied fallback condition. It does not invent an implementation step, such as reading a strategy file.
 
 ### Example B — Error message
 
@@ -85,7 +87,41 @@ Two deliberate calls worth stating rather than hiding:
 **After:**
 > A normal cache matches requests by exact text, so a small change in wording causes a cache miss. This cache compares the meaning of a new prompt against the prompts it already holds. It runs alongside your current stack and stores no data outside it.
 
-Flavored mode kept the explanatory rhythm and did not force one fixed term per concept. It still cut the marketing adjectives, the semicolon, and the length.
+The rewrite retains the source's product claims without the unsupported claims about ease or degree of improvement. Rewriting does not verify those product claims. "No vendor lock-in" does not establish where data is stored. The source also does not specify how the cache implements semantic similarity.
+
+**Additional recommendation, not part of the rewrite:** Verify the vendor-lock-in and cache-miss claims before publication. Add a measured improvement only if evidence supports it.
+
+### Example E — Direct answer without headings
+
+**User asks:** Do I need to restart the app after changing this setting?
+
+**Before:**
+> That's a good question. The important thing to know here is that, yes, a restart of the app is required for the new setting to take effect.
+
+**After:**
+> Yes. Restart the app to apply the setting.
+
+The answer comes first. A short answer does not need a heading, checklist, or closing offer.
+
+### Example F — Progress update with an unverified expectation
+
+**Before:**
+> I have changed the parser to handle empty input and the build has passed, so this should fix the crash, although I have not tested the empty-input case yet. I will check that case next.
+
+**After:**
+> I changed the parser to handle empty input. The build passed. I expect this to fix the crash, but I have not tested the empty-input case. Next, I will check that case.
+
+The build result is verified in this scenario; the crash fix is not. The update preserves the planned next check instead of claiming the task is complete.
+
+### Example G — Recommendation with an exception
+
+**Before:**
+> Unless your organization requires automatic updates, you should consider disabling them during the investigation because they may change the version under test.
+
+**After:**
+> Updates may change the version under test. Unless your organization requires automatic updates, you should consider disabling them during the investigation.
+
+Keep "may", "should consider", and the exception. Put the risk and condition before the suggested action. "Disable automatic updates" would lose both the exception and the recommendation's original strength.
 
 ## How to Read These Examples
 

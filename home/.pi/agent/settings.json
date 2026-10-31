@@ -22,8 +22,7 @@
       ]
     },
     "../../.local/share/dotfiles/sources/dmmulroy-dotfiles/home/.pi/agent/extensions/pi-skill-toggle",
-    "npm:pi-herdsman",
-    "git:github.com/FireTheDevil/pi-pstack-herdsman@76943c5d023ce53ebab71316d6983faaf0705c3b",
+    "git:github.com/FireTheDevil/pi-pstack-herdsman@efc173dac343cd1fd9bf11bcc01af6907ecd0c33",
     "npm:pi-context-view",
     {
       "source": "npm:@howaboua/pi-codex-guardian",
@@ -32,7 +31,18 @@
         "-index.ts"
       ]
     },
-    "npm:@heyhuynhgiabuu/pi-pretty"
+    "npm:@heyhuynhgiabuu/pi-pretty",
+    {
+      "source": "npm:pi-herdsman",
+      "extensions": [
+        "+dist/index.js"
+      ],
+      "skills": [
+        "+skills/agent-definitions/SKILL.md",
+        "+SKILL.md"
+      ]
+    },
+    "npm:@howaboua/pi-notes-compaction"
   ],
   "collapseChangelog": true,
   "showCacheMissNotices": true,
@@ -90,5 +100,10 @@
     "openrouter/anthropic/claude-opus-5.5",
     "openai-codex/gpt-6.1-sol",
     "openrouter/anthropic/claude-sonnet-5.5"
+  ],
+  "skills": [
+    "-skills/strict-tdd/SKILL.md",
+    "+skills/thermo-nuclear-code-quality-review/SKILL.md",
+    "+skills/emil-design-eng/SKILL.md"
   ]
 }

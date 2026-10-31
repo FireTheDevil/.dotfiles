@@ -258,9 +258,9 @@ def load_managed_skills() -> Tuple[ManagedSkill, ...]:
 
     bundled_root = REPO_ROOT / "home" / ".pi" / "agent" / "skills"
     bundled = sorted(path.name for path in bundled_root.iterdir() if path.is_dir())
-    if bundled != ["asd-ste-100-with-adhd"]:
+    if bundled != ["asd-ste100-with-adhd"]:
         raise ConfigError(
-            "home/.pi/agent/skills must contain only asd-ste-100-with-adhd."
+            "home/.pi/agent/skills must contain only asd-ste100-with-adhd."
         )
     return tuple(skills)
 

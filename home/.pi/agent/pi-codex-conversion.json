@@ -36,7 +36,7 @@
     "shareSubagentContext": true,
     "method": "pi",
     "notesTreeHandoff": true,
-    "idleNotesRollover": 0,
+    "idleNotesRollover": 715,
     "taskBoundaryReminder": 0,
     "newWindowRequests": "unrestricted"
   },
@@ -85,6 +85,8 @@
   },
   "notebook": {
     "maxHeapMiB": 4096,
-    "plainCommandOutput": false
+    "plainCommandOutput": false,
+    "journals": "on",
+    "checkpointCleanup": "never"
   }
 }
